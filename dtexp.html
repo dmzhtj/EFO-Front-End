@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail - EFO</title>
+    <style>
+        :root {
+            --bg-gray: #d4d0c8;
+            --title-blue: #000080;
+            --text-dark: #000;
+            --card-bg: #ece8e0;
+            --maroon: #cc0000;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: url("./BG.png") no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Times New Roman', '宋体', serif;
+            font-size: 17px;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 顶部导航条 */
+        .top-bar {
+            background: var(--title-blue);
+            color: #fff;
+            font-weight: bold;
+            padding: 6px 14px;
+            font-size: 17px;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            border-bottom: 2px solid #000060;
+        }
+        .top-bar .nav-links a {
+            color: #fff;
+            font-size: 14px;
+            margin-left: 16px;
+            text-decoration: none;
+            font-weight: normal;
+            letter-spacing: 0.2px;
+        }
+        .top-bar .nav-links a:hover { text-decoration: underline; }
+        .top-bar .nav-btn {
+            font-size: 14px;
+            font-weight: normal;
+            border: 1px solid #fff;
+            background: #d4d0c8;
+            color: #000;
+            padding: 1px 10px;
+            cursor: pointer;
+            font-family: 'Times New Roman', '宋体', serif;
+            margin-left: 10px;
+        }
+        .top-bar .nav-btn:active { border-style: inset; }
+
+        /* 主内容区 */
+        .content-area {
+            flex: 1;
+            padding: 20px 18px;
+            background: #d8d4cc;
+            overflow-y: auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .post-container {
+            width: 100%;
+            max-width: 740px;
+            background: #e8e4dc;
+            border: 1px solid #bbb;
+            padding: 24px 28px;
+            box-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        /* 帖子头部信息 */
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #bbb;
+        }
+        .post-avatar {
+            width: 48px;
+            height: 48px;
+            border: 1px solid #999;
+            overflow: hidden;
+            border-radius: 2px;
+            background: #fff;
+            flex-shrink: 0;
+        }
+        .post-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .post-meta { display: flex; flex-direction: column; gap: 3px; }
+        .post-user { font-weight: bold; font-size: 20px; letter-spacing: 0.3px; }
+        .post-info {
+            font-size: 13px;
+            color: #555;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .post-category {
+            background: #d4d0c8;
+            border: 1px solid #aaa;
+            padding: 1px 8px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .post-ai-badge {
+            background: #cc0000;
+            color: #fff;
+            padding: 1px 8px;
+            font-size: 11px;
+            font-weight: bold;
+            border: 1px solid #900;
+        }
+        .post-date {
+            font-family: 'Courier New', monospace;
+            color: #666;
+        }
+
+        /* 内容展示区域 */
+        .post-body {
+            margin-bottom: 20px;
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 18px;
+            min-height: 120px;
+            word-break: break-word;
+            line-height: 1.6;
+        }
+        .post-body img,
+        .post-body svg {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        .post-body video { max-width: 100%; background: #000; }
+        .post-body audio { width: 100%; margin-top: 8px; }
+        .post-body .video-placeholder {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 50px 20px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+        }
+        .play-triangle-large {
+            width: 0;
+            height: 0;
+            border-left: 42px solid #fff;
+            border-top: 26px solid transparent;
+            border-bottom: 26px solid transparent;
+            margin: 0 auto 12px auto;
+            opacity: 0.9;
+        }
+        .post-description {
+            margin: 16px 0 20px 0;
+            font-style: italic;
+            color: #444;
+            font-size: 15px;
+            background: #f9f9f0;
+            padding: 10px 14px;
+            border-left: 3px solid #aaa;
+        }
+
+        /* 评论区 */
+        .comments-section {
+            margin-top: 24px;
+            border-top: 1px solid #bbb;
+            padding-top: 16px;
+        }
+        .comments-section h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #333;
+            letter-spacing: 0.5px;
+        }
+        .comment {
+            background: #f0ece4;
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .comment .comment-user {
+            font-weight: bold;
+            color: #444;
+            white-space: nowrap;
+        }
+        .comment .comment-text {
+            flex: 1;
+            min-width: 200px;
+        }
+        .comment .comment-date {
+            font-size: 11px;
+            color: #888;
+            font-family: 'Courier New', monospace;
+            margin-left: auto;
+        }
+        .comment-input {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .comment-input input[type="text"] {
+            flex: 1;
+            border: 2px inset #fff;
+            padding: 6px 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            background: #fff;
+            outline: none;
+        }
+        .comment-input input[type="text"]:focus { background: #fffff0; }
+        .comment-input input[type="button"] {
+            border: 2px outset #fff;
+            background: #d4d0c8;
+            padding: 6px 18px;
+            font-family: 'Times New Roman', '宋体', serif;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .comment-input input[type="button"]:active { border-style: inset; }
+
+        .page-footer {
+            text-align: center;
+            font-size: 13px;
+            color: #555;
+            padding: 14px 0 12px;
+            flex-shrink: 0;
+            line-height: 1.5;
+            opacity: 0.8;
+            background: #c8c4b8;
+            border-top: 1px solid #aaa;
+        }
+        .page-footer a { color: #0000ee; }
+
+        a { color: #0000ee; text-decoration: underline; }
+        a:visited { color: #551a8b; }
+        a:hover { color: #3333ff; }
+
+        @media (max-width: 550px) {
+            .post-container { padding: 16px 14px; }
+            .content-area { padding: 12px 8px; }
+            .post-body { padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航条 -->
+    <div class="top-bar">
+        <span>:: Post Detail - EFO ::</span>
+        <span class="nav-links">
+            <button class="nav-btn" onclick="window.history.back()">← Back</button>
+            <a href="explore.html">Explore</a>
+            <a href="main.html">Main</a>
+        </span>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="content-area">
+        <div class="post-container">
+            <!-- 帖子头部 -->
+            <div class="post-header">
+                <div class="post-avatar" id="detailAvatar">
+                    <img src="" alt="avatar">
+                </div>
+                <div class="post-meta">
+                    <span class="post-user" id="detailUser">User</span>
+                    <div class="post-info">
+                        <span class="post-category" id="detailCategory">Travel</span>
+                        <span class="post-ai-badge" id="detailAI" style="display:none;">AI</span>
+                        <span class="post-date" id="detailDate">2026-07-13</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 帖子内容 -->
+            <div class="post-body" id="detailBody">
+                Loading...
+            </div>
+
+            <!-- 简介 -->
+            <div class="post-description" id="detailDesc" style="display:none;"></div>
+
+            <!-- 评论区 -->
+            <div class="comments-section">
+                <h3>Comments</h3>
+                <div id="commentsList">
+                    <div class="comment">
+                        <span class="comment-user">Zara:</span>
+                        <span class="comment-text">"This resonates deeply. Thank you for sharing."</span>
+                        <span class="comment-date">07-13</span>
+                    </div>
+                    <div class="comment">
+                        <span class="comment-user">Kael:</span>
+                        <span class="comment-text">"Could you elaborate on the third point?"</span>
+                        <span class="comment-date">07-13</span>
+                    </div>
+                </div>
+                <div class="comment-input">
+                    <input type="text" id="commentText" placeholder="Write a comment..." maxlength="200">
+                    <input type="button" value="Post" onclick="addComment()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部 -->
+    <div class="page-footer">
+        "我点燃了火，却控制不了它" &nbsp;|&nbsp;
+        &copy; 2026 EFO. Some rights reserved. &nbsp;|&nbsp;
+        <a href="explore.html">Explore</a>
+    </div>
+
+    <script>
+        (function() {
+            // 头像库
+            const avatarLibrary = {
+                dmz: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%234f46e5'/%3E%3Ccircle cx='50' cy='38' r='16' fill='%23fff'/%3E%3Cpath d='M30 65 Q50 80 70 65' stroke='%23fff' stroke-width='6' fill='none'/%3E%3C/svg%3E",
+                Zara: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23339933'/%3E%3Ccircle cx='35' cy='40' r='8' fill='%23fff'/%3E%3Ccircle cx='65' cy='40' r='8' fill='%23fff'/%3E%3Cpath d='M35 70 Q50 85 65 70' stroke='%23fff' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E",
+                Lumina: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23e74c3c'/%3E%3Ccircle cx='38' cy='42' r='6' fill='%23fff'/%3E%3Ccircle cx='62' cy='42' r='6' fill='%23fff'/%3E%3Cellipse cx='50' cy='70' rx='12' ry='8' fill='%23fff'/%3E%3C/svg%3E",
+                Kael: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23f1c40f'/%3E%3Ccircle cx='35' cy='40' r='7' fill='%23000'/%3E%3Ccircle cx='65' cy='40' r='7' fill='%23000'/%3E%3Cpath d='M40 70 Q50 60 60 70' stroke='%23000' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E",
+                Sage: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%238e44ad'/%3E%3Ccircle cx='50' cy='38' r='14' fill='%23fff'/%3E%3Crect x='35' y='55' width='30' height='8' rx='4' fill='%23fff'/%3E%3C/svg%3E",
+                JohnDoe: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%234f46e5'/%3E%3Ccircle cx='50' cy='38' r='16' fill='%23fff'/%3E%3Cpath d='M30 65 Q50 80 70 65' stroke='%23fff' stroke-width='6' fill='none'/%3E%3C/svg%3E"
+            };
+
+            // 从URL获取帖子ID
+            const params = new URLSearchParams(window.location.search);
+            const postId = params.get('id');
+
+            // 合并帖子数据
+            function getAllPosts() {
+                const saved = localStorage.getItem('efo_posts');
+                const userPosts = saved ? JSON.parse(saved) : [];
+                const samplePosts = [
+                    { id: 1001, category: 'travel', type: 'image', user: 'dmz', avatar: avatarLibrary.dmz,
+                      date: '2026-07-13', spans: 'span-2x2', description: 'Sunset over the canyon ridge.',
+                      content: `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="300" fill="#1a1a3e"/><circle cx="220" cy="80" r="40" fill="#f5c842" opacity="0.95"/><polygon points="0,180 60,70 130,150 200,90 300,170 300,300 0,300" fill="#2d5a3f"/><polygon points="0,220 80,140 160,200 240,130 300,210 300,300 0,300" fill="#3a7a4f" opacity="0.8"/><rect x="0" y="250" width="300" height="50" fill="#4a3a2a"/><rect x="30" y="200" width="18" height="50" fill="#3a3020" rx="1"/><rect x="80" y="190" width="14" height="60" fill="#3a3020" rx="1"/></svg>`,
+                      isAI: false },
+                    { id: 1002, category: 'rant', type: 'text', user: 'Zara', avatar: avatarLibrary.Zara,
+                      date: '2026-07-12', description: '',
+                      content: '"The fire I kindled burns beyond my control. Yet in its light, we find each other."',
+                      isAI: false },
+                    { id: 1003, category: 'travel', type: 'image', user: 'Lumina', avatar: avatarLibrary.Lumina,
+                      date: '2026-07-12', description: 'Northern lights in monochrome.',
+                      content: `<svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="150" fill="#1e1e3a"/><circle cx="340" cy="40" r="30" fill="#f0d060"/><polygon points="0,90 50,40 100,80 180,50 280,90 350,60 400,100 400,150 0,150" fill="#4a3060"/><polygon points="0,110 70,60 150,100 250,70 350,110 400,95 400,150 0,150" fill="#6a4080" opacity="0.7"/></svg>`,
+                      isAI: true },
+                    { id: 1004, category: 'study', type: 'video', user: 'Kael', avatar: avatarLibrary.Kael,
+                      date: '2026-07-11', description: 'Lecture on epistemic humility.',
+                      content: '', isAI: false },
+                    { id: 1005, category: 'life', type: 'text', user: 'Sage', avatar: avatarLibrary.Sage,
+                      date: '2026-07-11', description: '',
+                      content: 'A brief note on epistemic humility: knowing what we don\'t know is the first step toward truth.',
+                      isAI: false },
+                ];
+                const allIds = new Set(userPosts.map(p => p.id));
+                const merged = [...userPosts];
+                samplePosts.forEach(sp => {
+                    if (!allIds.has(sp.id)) merged.push(sp);
+                });
+                return merged;
+            }
+
+            const posts = getAllPosts();
+            const post = posts.find(p => String(p.id) === postId);
+
+            if (!post) {
+                document.getElementById('detailBody').innerHTML = '<p style="color:#cc0000;text-align:center;padding:40px;">Post not found.<br><a href="explore.html">← Back to Explore</a></p>';
+                return;
+            }
+
+            // 填充数据
+            document.getElementById('detailAvatar').querySelector('img').src = post.avatar;
+            document.getElementById('detailUser').textContent = post.user;
+            document.getElementById('detailCategory').textContent = post.category.charAt(0).toUpperCase() + post.category.slice(1);
+            if (post.isAI) document.getElementById('detailAI').style.display = 'inline';
+            document.getElementById('detailDate').textContent = post.date;
+
+            // 渲染内容
+            const body = document.getElementById('detailBody');
+            if (post.type === 'image') {
+                body.innerHTML = post.content;
+            } else if (post.type === 'video') {
+                body.innerHTML = '<div class="video-placeholder"><div class="play-triangle-large"></div>Video content<br><span style="font-size:12px;">Click to play (demo)</span></div>';
+            } else if (post.type === 'audio') {
+                body.innerHTML = '<audio controls style="width:100%;"><source src="" type="audio/mpeg">Your browser does not support audio.</audio><p style="text-align:center;color:#888;margin-top:8px;">Audio file (demo)</p>';
+            } else if (post.type === 'text') {
+                body.innerHTML = `<div style="white-space:pre-wrap;font-family:'Courier New',monospace;">${post.content}</div>`;
+            }
+
+            // 简介
+            if (post.description) {
+                const descDiv = document.getElementById('detailDesc');
+                descDiv.textContent = post.description;
+                descDiv.style.display = 'block';
+            }
+
+            // 评论功能
+            window.addComment = function() {
+                const input = document.getElementById('commentText');
+                const text = input.value.trim();
+                if (!text) return;
+                const comment = {
+                    user: 'You',
+                    text: text,
+                    date: new Date().toISOString().slice(5, 10)
+                };
+                let allComments = JSON.parse(localStorage.getItem('efo_comments') || '{}');
+                if (!allComments[post.id]) allComments[post.id] = [];
+                allComments[post.id].push(comment);
+                localStorage.setItem('efo_comments', JSON.stringify(allComments));
+                renderComments(post.id);
+                input.value = '';
+            };
+
+            function renderComments(pid) {
+                const list = document.getElementById('commentsList');
+                let allComments = JSON.parse(localStorage.getItem('efo_comments') || '{}');
+                const postComments = allComments[pid] || [];
+                let html = `
+                    <div class="comment">
+                        <span class="comment-user">Zara:</span>
+                        <span class="comment-text">"This resonates deeply. Thank you for sharing."</span>
+                        <span class="comment-date">07-13</span>
+                    </div>
+                    <div class="comment">
+                        <span class="comment-user">Kael:</span>
+                        <span class="comment-text">"Could you elaborate on the third point?"</span>
+                        <span class="comment-date">07-13</span>
+                    </div>`;
+                postComments.forEach(c => {
+                    html += `<div class="comment">
+                        <span class="comment-user">${c.user}:</span>
+                        <span class="comment-text">"${c.text}"</span>
+                        <span class="comment-date">${c.date}</span>
+                    </div>`;
+                });
+                list.innerHTML = html;
+            }
+
+            renderComments(post.id);
+        })();
+    </script>
+</body>
+</html>

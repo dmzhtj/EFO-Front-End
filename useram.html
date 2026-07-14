@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Agreement - EFO</title>
+    <style>
+        :root {
+            --bg-gray: #d4d0c8;
+            --title-blue: #000080;
+            --border-light: #fff;
+            --text-dark: #000;
+            --text-gray: #333;
+            --link-blue: #0000ee;
+            --link-visited: #551a8b;
+            --maroon: #cc0000;
+            --disabled-text: #888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: url("./BG.png") no-repeat center center fixed;
+            background-size: 100% 100%;
+            font-family: 'Times New Roman', '宋体', serif;
+            font-size: 19px;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        table.main {
+            width: 480px;
+            border: 2px outset var(--border-light);
+            background: var(--bg-gray);
+            border-collapse: collapse;
+            height: fit-content;
+            margin-top: 90px;
+        }
+
+        table.main td.title-bar {
+            background: var(--title-blue);
+            color: var(--border-light);
+            font-weight: bold;
+            padding: 4px 6px;
+            font-size: 17px;
+            text-align: left;
+            letter-spacing: 0.3px;
+        }
+
+        table.main td.title-bar .lang-btn {
+            float: right;
+            font-size: 14px;
+            font-weight: normal;
+            border: 1px outset var(--border-light);
+            background: var(--bg-gray);
+            color: var(--text-dark);
+            padding: 1px 8px;
+            cursor: pointer;
+            font-family: 'Times New Roman', '宋体', serif;
+            margin-left: 8px;
+            transition: background 0.1s;
+        }
+        table.main td.title-bar .lang-btn:hover {
+            background: #c8c4bc;
+        }
+        table.main td.title-bar .lang-btn:active {
+            border-style: inset;
+        }
+
+        table.main td.content {
+            padding: 15px 20px;
+        }
+
+        textarea.agreement-box {
+            width: 100%;
+            height: 240px;
+            border: 2px inset var(--border-light);
+            background: #fff;
+            font-family: 'Courier New', 'SimSun', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            padding: 10px 12px;
+            resize: none;
+            color: var(--text-dark);
+            scrollbar-width: thin;
+            scrollbar-color: #888 var(--bg-gray);
+            outline: none;
+            transition: background 0.15s;
+        }
+        textarea.agreement-box:focus {
+            background: #fffff0;
+        }
+
+        .checkbox-row {
+            text-align: left;
+            margin-top: 8px;
+            font-size: 17px;
+            font-weight: bold;
+            padding: 2px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+        .checkbox-row input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            cursor: pointer;
+            accent-color: var(--text-dark);
+        }
+
+        .btn-row {
+            text-align: center;
+            margin-top: 10px;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        input[type="submit"],
+        input[type="button"] {
+            border: 2px outset var(--border-light);
+            background: var(--bg-gray);
+            padding: 4px 20px;
+            font-family: 'Times New Roman', '宋体', serif;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            min-width: 80px;
+            color: var(--text-dark);
+            transition: background 0.15s, color 0.15s;
+        }
+        input[type="submit"]:hover:not(:disabled),
+        input[type="button"]:hover:not(:disabled) {
+            background: #c8c4bc;
+        }
+        input[type="submit"]:active:not(:disabled),
+        input[type="button"]:active:not(:disabled) {
+            border-style: inset;
+        }
+        input[type="submit"]:disabled,
+        input[type="button"]:disabled {
+            color: var(--disabled-text);
+            cursor: not-allowed;
+        }
+
+        a {
+            color: var(--link-blue);
+            text-decoration: underline;
+            font-size: 16px;
+            transition: color 0.15s;
+        }
+        a:visited {
+            color: var(--link-visited);
+        }
+        a:hover {
+            color: #3333ff;
+        }
+
+        hr {
+            border: 1px inset var(--border-light);
+            margin: 10px 0 6px 0;
+        }
+
+        .status-bar {
+            background: var(--bg-gray);
+            border: 1px inset var(--border-light);
+            padding: 3px 8px;
+            font-size: 14px;
+            color: var(--text-gray);
+            margin-top: 8px;
+            text-align: left;
+            min-height: 1.5em;
+        }
+
+        marquee {
+            font-size: 15px;
+            color: var(--maroon);
+            font-weight: bold;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 15px;
+            color: var(--text-dark);
+            padding: 24px 0;
+            background: transparent;
+            flex-shrink: 0;
+            line-height: 1.6;
+            opacity: 0.85;
+        }
+
+        /* 响应式微调 */
+        @media (max-width: 520px) {
+            table.main {
+                width: 94vw;
+                margin-top: 30px;
+            }
+            table.main td.content {
+                padding: 12px 14px;
+            }
+            textarea.agreement-box {
+                height: 200px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content-wrapper">
+        <table class="main">
+            <tr>
+                <td class="title-bar">
+                    :: EFO User Agreement ::
+                    <button class="lang-btn" id="langToggle">中文</button>
+                </td>
+            </tr>
+            <tr>
+                <td class="content">
+                    <marquee scrollamount="3">★ PLEASE READ THE FULL AGREEMENT BEFORE SUBMITTING ★</marquee>
+
+                    <form id="agreementForm" method="post" action="#">
+                        <textarea class="agreement-box" id="agreementText" readonly></textarea>
+
+                        <div class="checkbox-row">
+                            <input type="checkbox" id="agreeCheckbox">
+                            <label for="agreeCheckbox">I have read and agree to all terms</label>
+                        </div>
+
+                        <div class="btn-row">
+                            <input type="submit" id="btnAgree" value="Agree" disabled>
+                            <input type="button" id="btnDisagree" value="Disagree">
+                        </div>
+                    </form>
+
+                    <hr>
+                    <div class="status-bar">
+                        Status: <span id="statusText">Please read the agreement carefully.</span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="footer">
+        "我点燃了火，却控制不了它"<br>
+        &copy; 2026 EFO. Some rights reserved.
+    </div>
+
+    <script>
+        (function() {
+            // ---------- 协议文本 ----------
+            const agreementEN = `EFO User Agreement and Organization Convention
+
+Update Date: July 13, 2026
+Effective Date: July 14, 2026
+
+Welcome to the Earth Future (Four-Body) Organization (hereinafter referred to as "the Organization"). The Organization is created and maintained by dmz and ZaraZorin (hereinafter referred to as "we"), a high-quality communication space dedicated to rational discussion, mutual respect, and fact-based discourse.
+
+This Agreement is the legal contract between you and us regarding the use of the Organization's services. Please read and understand all the following terms carefully before registering. Submitting an application or using any service constitutes acceptance of all terms.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+I. General Provisions: Our Common Covenant
+
+1.1 The core values of the Organization: respect facts, focus on issues rather than individuals, assume goodwill first, and take full responsibility for your own words and actions.
+
+1.2 We have the right to handle inappropriate behaviors according to this Agreement and subsequent rules to maintain the discussion environment.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+II. Registration Eligibility and Entry Screening
+
+2.1 Application-Review System: Strict application and manual review. All information provided will be comprehensively evaluated.
+
+2.2 True Information: You must provide a real, valid email address and complete verification.
+
+2.3 Open-Ended Situational Assessment: Complete the provided open-ended questions sincerely. Formulaic responses, plagiarism, or evasion will lead to rejection.
+
+2.4 We reserve the right to reject an application unconditionally without explanation. Reapplying under a different identity after rejection is not permitted unless specially allowed.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+III. Code of Conduct
+
+3.1 Respect Facts, Substantiate Claims: Provide traceable evidence when making verifiable claims. Deliberately fabricating or spreading false information leads to permanent ban.
+
+3.2 Focus on Issues, No Personal Attacks: All discussions must target viewpoints and arguments only. Personal attacks, abuse, discrimination, harassment, or labeling based on personal characteristics are strictly prohibited.
+
+3.3 Assume Goodwill First: Before rebutting, assume the other party holds goodwill and ask for clarification. Malicious speculation, misinterpreting statements, or framing without evidence is not tolerated.
+
+3.4 Take Full Responsibility for Your Words and Actions: All content you publish represents only yourself, and you bear full legal responsibility. Real names or stable identities are encouraged. Multiple accounts for impersonation, manipulation, or ban evasion are forbidden. Content that has generated substantial discussion must not be maliciously edited or deleted to distort context.
+
+3.5 Maintain Rational Discourse Space: Venting, spam, trolling, group attacks, or flooding is prohibited. Publishing or disseminating others' private information illegally is strictly forbidden.
+
+3.6 Laws and Regulations: All users shall comply with United Nations laws, conventions, and treaties. Citizens of the People's Republic of China shall comply with PRC laws. This Agreement is governed by the laws of the PRC. Legal disputes shall be under the jurisdiction of the court where the website owner is located.
+
+3.7 AI: Any AI intervention must be labeled.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+IV. Violation Handling and Transparent Governance
+
+4.1 Handling Measures: Warnings, content deletion, function restriction, suspension, permanent ban, and refusal of future services may be applied.
+
+4.2 Transparent Log: Management actions (deletion, warning, ban) will be posted in the public "Organization Transparency Log" with the specific terms cited, unless privacy or legal risks prevent it.
+
+4.3 Organizational Co-governance: For complex cases, a "review panel" of highly trusted users may be formed to deliberate according to the spirit of this Agreement.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+V. Content Rights and Privacy
+
+5.1 Copyright of your original content remains yours, but you grant the Organization a permanent, free, irrevocable worldwide license for display, dissemination, archiving, and operation within the Organization.
+
+5.2 We strictly protect your privacy. Personal information submitted during registration is used only for qualification assessment and management, never for commercial sale or illegal provision to third parties.
+
+5.3 We may change, suspend, or terminate services with 30 days' notice. User content will be archived upon termination. Contact: dmzhtjzs@outlook.com.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VI. Disclaimer
+
+6.1 The Organization cannot review all content in real time. You should judge the authenticity and value of information yourself.
+
+6.2 The final interpretation right belongs to us, but we promise to always uphold the original core values when interpreting and executing this Agreement.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Before clicking "Agree," ask yourself: Am I willing to stay in a place that requires me to converse with facts, goodwill, and a sense of responsibility?
+
+If yes, we are waiting for you to join.`;
+
+            const agreementZH = `《EFO 用户协议与组织公约》
+
+更新日期：2026年7月13日
+生效日期：2026年7月14日
+
+欢迎来到地球未来（四体）组织（以下简称"本组织"）。本组织是由dmz和ZaraZorin（以下简称"我们"）创建并维护的，一个致力于理性探讨、互相尊重、守护事实的高质量交流空间。我们寻找的不是完美的人，而是愿意以审慎、善意、负责的态度进行公共表达的同行者。
+
+本协议即是你与我们之间关于使用本组织服务的法律契约。在你注册并使用本组织之前，请务必逐条仔细阅读并理解以下全部条款。一旦你提交注册申请或开始使用本组织的任何服务，即表示你已充分理解并同意受本协议全部条款的约束。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+一、总则：我们的共同契约
+
+1.1 本组织的核心价值可概括为四点：尊重事实，对事不对人，先行善意推定，为自己的言行全权负责。 这不仅是规则，更是我们筛选和评判一切行为的内在标准。
+
+1.2 我们有权依据本协议及后续公示的组织细则，对组织内的不当行为进行处理，以维护我们共同珍视的讨论环境。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+二、注册资格与准入筛选
+
+我们通过高成本的准入机制来寻找真正志同道合的人。不认同、不遵守或无法通过以下流程者，将无法成为本组织成员。
+
+2.1 申请-审核制：本组织实行严格的申请与人工审核制度。你在注册时填写的所有信息，将被用来综合评估你是否适合加入本组织。
+
+2.2 真实信息：你必须提供真实、有效的电子邮箱并完成验证。
+
+2.3 开放式情境评估：你需要在注册申请中完成我们提供的开放式情境问题。你的回答真诚与否，是审核的核心权重项。 任何套话、抄袭或明显规避问题的回答，都将导致申请被直接拒绝。
+
+2.4 我们保留无条件拒绝申请的权利。我们有权在不予通过的同时，不提供具体解释。申请被拒绝后，非经特别允许，同一人不得使用不同身份重复申请。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+三、你不可逾越的行为准绳
+
+在本组织，你的一言一行都必须符合以下具体准则。违反这些准则，将视同违反本协议。
+
+3.1 尊重事实，言之有据：发表涉及可验证事实的主张时，应尽可能提供可溯源的依据、数据或来源。严禁故意编造、传播虚假信息或谣言。 经核实为虚假且拒不更正的，将面临永久封禁。
+
+3.2 对事不对人，杜绝人身攻击：所有讨论应严格针对观点、论据和事件本身。严禁任何形式的人身攻击、辱骂、诅咒、性别或地域歧视、性骚扰、基于个人特征（如年龄、职业）的侮辱性或贴标签式言论。
+
+3.3 先行善意推定，严禁恶意揣测：在反驳或质疑他人之前，你必须首先假定对方持有善意，并请求对方澄清其真实意图。严禁在无确凿证据的情况下，蓄意曲解他人言论、揣测对方"不可告人的动机"、扣帽子或构陷。组织不欢迎"诛心之论"。
+
+3.4 为你的言行全权负责：你在组织内发布的所有内容，仅代表你个人，由你独立承担全部法律责任。鼓励实名或长期稳定的固定身份。 严禁使用多个账号恶意冒充、分裂身份进行自导自演、操控讨论风向或规避封禁。你发布的具有实质争议或已被多名用户回复的内容，不得在事后恶意进行大规模编辑或删除以否认、歪曲原始上下文。组织版主有权视情况恢复此类记录，以保护讨论的完整性。
+
+3.5 维护理性对话空间：严禁发布纯粹宣泄情绪、毫无信息量的垃圾信息、恶意引战、群体攻击或刷屏内容。严禁非法或不道德地发布、传播他人隐私信息（如住址、电话号码、真实姓名等）。
+
+3.6 法律法规：所有用户应遵守联合国法律、公约、条约、宪章。对于中华人民共和国公民，应遵守中华人民共和国法律。本协议的订立、执行和解释均适用中华人民共和国法律。法律争端由网站负责人所在地法院管辖。
+
+3.7 AI：任何AI的介入，应进行标识。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+四、违规处理与透明治理
+
+4.1 处理措施：对于违规行为，我们有权独立或并采取以下措施：警告、删除内容、限制部分功能、一定期限的禁言、永久封禁账号，以及拒绝提供任何未来服务。
+
+4.2 透明日志：除特殊情况（如涉及隐私、法律风险）外，所有由管理员执行的删除、警告、封禁等管理动作，均会在指定的公开版块"组织透明日志"中，公示所依据的本协议具体条款及必要的理由。这既是监督权力，也是对你最好的规则教育。
+
+4.3 组织共治：对于复杂、存在争议的治理事件，我们可能从高度信任的用户中随机抽取组成"评议团"，依据本协议精神进行商议与裁定。这是成员守护组织价值观的直接方式。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+五、内容权利与隐私
+
+5.1 你在本组织发布的原创内容，著作权仍归你所有。但你授予本组织一项永久、免费、不可撤销的全球许可，以用于组织内的展示、传播、存档及运营。
+
+5.2 我们尊重并严格保护你的隐私。所有在注册审核阶段提交的个人信息，仅用于资格评估与组织管理，绝不用于商业出售或非法向第三方提供。具体细节见《隐私政策》。
+
+5.3 我们有权基于合理判断变更、暂停或终止服务，并将提前30日在站内公示；服务终止时将对用户内容留档，如有需要可联系我们（dmzhtjzs@outlook.com）。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+六、免责声明
+
+6.1 本组织无法对用户发布的所有内容的真实性和合法性进行即时、完全的审查。你应自行判断信息的真伪与价值。
+
+6.2 本协议最终解释权归我们所有，但我们承诺在解释和执行时，始终以组织最初的核心价值观为圭臬。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+在点击"同意"之前，请务必再一次问自己：我是否愿意在一个要求我以事实、善意和责任心来与人对话的地方停留？
+
+若答案为是，我们等你加入。`;
+
+            // ---------- DOM 元素缓存 ----------
+            const textarea = document.getElementById('agreementText');
+            const langToggle = document.getElementById('langToggle');
+            const agreeCheckbox = document.getElementById('agreeCheckbox');
+            const btnAgree = document.getElementById('btnAgree');
+            const btnDisagree = document.getElementById('btnDisagree');
+            const statusText = document.getElementById('statusText');
+            const form = document.getElementById('agreementForm');
+
+            // ---------- 状态变量 ----------
+            let currentLang = 'EN';
+            let isSubmitting = false;
+
+            // ---------- 初始化 ----------
+            textarea.value = agreementEN;
+            updateStatusMessage('Please read the agreement carefully.');
+
+            // ---------- 事件绑定 ----------
+            langToggle.addEventListener('click', toggleLanguage);
+            agreeCheckbox.addEventListener('change', handleCheckboxChange);
+            btnDisagree.addEventListener('click', handleDisagree);
+            form.addEventListener('submit', handleSubmit);
+
+            // 键盘快捷键：Ctrl+Enter 提交（当复选框已勾选且按钮可用时）
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    if (!isSubmitting && agreeCheckbox.checked && !btnAgree.disabled) {
+                        e.preventDefault();
+                        form.dispatchEvent(new Event('submit', { cancelable: true }));
+                    }
+                }
+            });
+
+            // 文本域滚动位置记忆
+            let scrollPositions = { EN: 0, ZH: 0 };
+
+            textarea.addEventListener('scroll', function() {
+                scrollPositions[currentLang] = textarea.scrollTop;
+            });
+
+            // ---------- 函数定义 ----------
+            function toggleLanguage() {
+                // 保存当前滚动位置
+                scrollPositions[currentLang] = textarea.scrollTop;
+
+                if (currentLang === 'EN') {
+                    textarea.value = agreementZH;
+                    langToggle.textContent = 'EN';
+                    currentLang = 'ZH';
+                } else {
+                    textarea.value = agreementEN;
+                    langToggle.textContent = '中文';
+                    currentLang = 'EN';
+                }
+
+                // 恢复之前保存的滚动位置
+                textarea.scrollTop = scrollPositions[currentLang] || 0;
+
+                // 更新状态栏文本（保持复选框状态相关提示）
+                updateStatusAfterLanguageChange();
+            }
+
+            function handleCheckboxChange() {
+                if (agreeCheckbox.checked) {
+                    btnAgree.disabled = false;
+                    btnAgree.style.color = '#000';
+                    updateStatusMessage('Confirmed. You may now submit.');
+                } else {
+                    btnAgree.disabled = true;
+                    btnAgree.style.color = '#888';
+                    updateStatusMessage('Please check the box to confirm you have read the agreement.');
+                }
+            }
+
+            function handleSubmit(event) {
+                event.preventDefault();
+                if (isSubmitting) return;
+
+                if (!agreeCheckbox.checked) {
+                    alert('You must agree to the terms before submitting.');
+                    updateStatusMessage('Error: agreement not confirmed.');
+                    return;
+                }
+
+                // 进入提交状态
+                isSubmitting = true;
+                btnAgree.disabled = true;
+                btnAgree.value = 'Submitting...';
+                btnAgree.style.color = '#888';
+                updateStatusMessage('Submitting application, please wait...');
+
+                // 模拟异步提交
+                setTimeout(function() {
+                    alert('✓ Application submitted successfully!\n\nThank you for reading and agreeing to the EFO User Agreement.\nWe will review your application shortly. Please check your email.\n\n—— Earth Future (Four-Body) Organization');
+                    btnAgree.value = 'Submitted';
+                    updateStatusMessage('Application submitted. Awaiting review.');
+                    // 保持按钮禁用状态，防止重复提交
+                }, 1200);
+            }
+
+            function handleDisagree() {
+                updateStatusMessage('You chose not to agree.');
+                if (confirm('You have chosen not to agree to the agreement.\n\nClick "OK" to leave this page.\nWe respect your decision.')) {
+                    updateStatusMessage('Leaving...');
+                    window.location.href = 'about:blank';
+                } else {
+                    updateStatusMessage('Waiting for your decision...');
+                }
+            }
+
+            function updateStatusMessage(message) {
+                statusText.textContent = message;
+            }
+
+            function updateStatusAfterLanguageChange() {
+                if (agreeCheckbox.checked) {
+                    updateStatusMessage(currentLang === 'EN' ? 'Confirmed. You may now submit.' : '已确认，现在可以提交。');
+                } else {
+                    updateStatusMessage(currentLang === 'EN' ? 'Please check the box to confirm you have read the agreement.' : '请勾选复选框以确认您已阅读协议。');
+                }
+            }
+        })();
+    </script>
+
+</body>
+</html>

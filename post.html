@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post - EFO</title>
+    <style>
+        :root {
+            --bg-gray: #d4d0c8;
+            --title-blue: #000080;
+            --border-light: #fff;
+            --text-dark: #000;
+            --link-blue: #0000ee;
+            --link-visited: #551a8b;
+            --maroon: #cc0000;
+            --disabled-text: #888;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: url("./BG.png") no-repeat center center fixed;
+            background-size: 100% 100%;
+            font-family: 'Times New Roman', '宋体', serif;
+            font-size: 19px;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 27vh;
+        }
+
+        table.main {
+            width: 480px;
+            border: 2px outset var(--border-light);
+            background: var(--bg-gray);
+            border-collapse: collapse;
+            height: fit-content;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+        }
+
+        table.main td.title-bar {
+            background: var(--title-blue);
+            color: var(--border-light);
+            font-weight: bold;
+            padding: 4px 6px;
+            font-size: 17px;
+            text-align: left;
+            letter-spacing: 0.5px;
+        }
+
+        table.main td.content {
+            padding: 16px 22px;
+        }
+
+        table.form { width: 100%; border-collapse: collapse; }
+        table.form td { padding: 3px 0; vertical-align: top; }
+        table.form td.label { font-weight: bold; font-size: 17px; padding-top: 6px; }
+
+        select, input[type="text"], input[type="file"], textarea {
+            width: 100%;
+            border: 2px inset var(--border-light);
+            background: #fff;
+            padding: 5px 8px;
+            font-family: 'Courier New', 'SimSun', monospace;
+            font-size: 16px;
+            color: var(--text-dark);
+            outline: none;
+            resize: vertical;
+        }
+        select { cursor: pointer; }
+        textarea { min-height: 80px; line-height: 1.5; }
+        input[type="file"] { padding: 3px 6px; font-size: 14px; color: #333; background: #f5f5f5; }
+        input[type="text"]:focus, textarea:focus, select:focus { background: #fffff0; }
+
+        .checkbox-row { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 16px; }
+        .checkbox-row input[type="checkbox"] { width: 16px; height: 16px; margin: 0; }
+
+        .hint-text { font-size: 12px; color: #666; margin-top: 2px; font-style: italic; }
+        .file-name { display: block; margin-top: 4px; font-size: 13px; color: #444; font-family: 'Courier New', monospace; }
+
+        .btn-row { text-align: center; padding-top: 14px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+        input[type="submit"], input[type="button"], .btn-back {
+            border: 2px outset var(--border-light);
+            background: var(--bg-gray);
+            padding: 5px 18px;
+            font-family: 'Times New Roman', '宋体', serif;
+            font-size: 17px;
+            cursor: pointer;
+            color: var(--text-dark);
+            min-width: 70px;
+            letter-spacing: 0.3px;
+            transition: background 0.1s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        input[type="submit"]:hover, input[type="button"]:hover, .btn-back:hover { background: #c8c4bc; }
+        input[type="submit"]:active, input[type="button"]:active, .btn-back:active { border-style: inset; }
+        input[type="submit"]:disabled { color: var(--disabled-text); cursor: wait; }
+
+        a { color: var(--link-blue); text-decoration: underline; font-size: 16px; }
+        a:visited { color: var(--link-visited); }
+        a:hover { color: #3333ff; }
+
+        hr { border: 1px inset var(--border-light); margin: 14px 0 6px 0; }
+        .error-msg { color: #cc0000; font-size: 13px; font-weight: bold; min-height: 16px; text-align: center; margin-top: 4px; }
+        .link-row { text-align: center; font-size: 16px; margin-top: 2px; }
+        .footer { text-align: center; font-size: 15px; color: var(--text-dark); padding: 20px 0 16px; flex-shrink: 0; line-height: 1.6; opacity: 0.85; }
+
+        @media (max-width: 500px) {
+            table.main { width: 93vw; }
+            table.main td.content { padding: 12px 14px; }
+            .page-content { padding-top: 8vh; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-content">
+        <table class="main">
+            <tr><td class="title-bar">:: New Post - EFO ::</td></tr>
+            <tr>
+                <td class="content">
+                    <form id="postForm" method="post" action="#" onsubmit="return handlePost(event)">
+                        <table class="form">
+                            <!-- Category -->
+                            <tr><td class="label">category:</td></tr>
+                            <tr>
+                                <td>
+                                    <select id="postCategory" required>
+                                        <option value="">-- Select category --</option>
+                                        <option value="travel">Travel</option>
+                                        <option value="rant">Rant</option>
+                                        <option value="study">Study</option>
+                                        <option value="life">Life</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <!-- Type -->
+                            <tr><td class="label">type:</td></tr>
+                            <tr>
+                                <td>
+                                    <select id="postType" onchange="toggleContentFields()" required>
+                                        <option value="">-- Select type --</option>
+                                        <option value="text">Text</option>
+                                        <option value="image">Image</option>
+                                        <option value="video">Video</option>
+                                        <option value="audio">Audio</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <!-- AI Generated Checkbox -->
+                            <tr>
+                                <td>
+                                    <div class="checkbox-row">
+                                        <input type="checkbox" id="isAI">
+                                        <label for="isAI">AI Generated?</label>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Text area -->
+                            <tr id="textFieldRow" style="display:none;"><td class="label">text content:</td></tr>
+                            <tr id="textFieldTextarea" style="display:none;">
+                                <td><textarea id="textContent" placeholder="Write your post here..." rows="4"></textarea></td>
+                            </tr>
+
+                            <!-- Image upload + description -->
+                            <tr id="imageFieldRow" style="display:none;"><td class="label">image:</td></tr>
+                            <tr id="imageFieldInput" style="display:none;">
+                                <td>
+                                    <input type="file" id="imageFile" accept="image/*">
+                                    <div id="imagePreviewContainer" style="margin-top:6px;display:none;">
+                                        <img id="imagePreview" src="" alt="Preview" style="max-width:100%;max-height:120px;border:2px inset #fff;display:block;">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="imageDescRow" style="display:none;"><td class="label">description (optional):</td></tr>
+                            <tr id="imageDescInput" style="display:none;">
+                                <td><input type="text" id="imageDesc" placeholder="Add a short description..."></td>
+                            </tr>
+
+                            <!-- Video upload + description -->
+                            <tr id="videoFieldRow" style="display:none;"><td class="label">video:</td></tr>
+                            <tr id="videoFieldInput" style="display:none;">
+                                <td>
+                                    <input type="file" id="videoFile" accept="video/*">
+                                    <span id="videoFileName" class="file-name"></span>
+                                </td>
+                            </tr>
+                            <tr id="videoDescRow" style="display:none;"><td class="label">description (optional):</td></tr>
+                            <tr id="videoDescInput" style="display:none;">
+                                <td><input type="text" id="videoDesc" placeholder="Add a short description..."></td>
+                            </tr>
+
+                            <!-- Audio upload + description -->
+                            <tr id="audioFieldRow" style="display:none;"><td class="label">audio:</td></tr>
+                            <tr id="audioFieldInput" style="display:none;">
+                                <td>
+                                    <input type="file" id="audioFile" accept="audio/*">
+                                    <span id="audioFileName" class="file-name"></span>
+                                </td>
+                            </tr>
+                            <tr id="audioDescRow" style="display:none;"><td class="label">description (optional):</td></tr>
+                            <tr id="audioDescInput" style="display:none;">
+                                <td><input type="text" id="audioDesc" placeholder="Add a short description..."></td>
+                            </tr>
+
+                            <!-- Error -->
+                            <tr><td><div class="error-msg" id="errorMsg"></div></td></tr>
+
+                            <!-- Buttons -->
+                            <tr>
+                                <td>
+                                    <div class="btn-row">
+                                        <input type="submit" value="post">
+                                        <input type="reset" value="clear" onclick="resetForm()">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+
+                    <hr>
+                    <div class="link-row">
+                        <a href="#" onclick="window.location.href='explore.html';">View in Explore</a> &nbsp;|&nbsp;
+                        <a href="#" onclick="window.location.href='main.html';">Back to Main</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="footer">
+        "我点燃了火，却控制不了它"<br>
+        &copy; 2026 EFO. Some rights reserved.
+    </div>
+
+    <script>
+        const currentUser = {
+            name: 'JohnDoe',
+            avatar: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%234f46e5'/%3E%3Ccircle cx='50' cy='38' r='16' fill='%23fff'/%3E%3Cpath d='M30 65 Q50 80 70 65' stroke='%23fff' stroke-width='6' fill='none'/%3E%3C/svg%3E"
+        };
+
+        // 动态字段控制
+        function toggleContentFields() {
+            const type = document.getElementById('postType').value;
+            // 隐藏所有内容相关行
+            ['text','image','video','audio'].forEach(t => {
+                if (t === 'text') {
+                    document.getElementById('textFieldRow').style.display = 'none';
+                    document.getElementById('textFieldTextarea').style.display = 'none';
+                } else {
+                    document.getElementById(t+'FieldRow').style.display = 'none';
+                    document.getElementById(t+'FieldInput').style.display = 'none';
+                    document.getElementById(t+'DescRow').style.display = 'none';
+                    document.getElementById(t+'DescInput').style.display = 'none';
+                }
+            });
+            // 显示当前类型相关行
+            if (type === 'text') {
+                document.getElementById('textFieldRow').style.display = '';
+                document.getElementById('textFieldTextarea').style.display = '';
+            } else if (type) {
+                document.getElementById(type+'FieldRow').style.display = '';
+                document.getElementById(type+'FieldInput').style.display = '';
+                document.getElementById(type+'DescRow').style.display = '';
+                document.getElementById(type+'DescInput').style.display = '';
+            }
+            clearError();
+        }
+
+        // 图片预览
+        document.getElementById('imageFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const previewContainer = document.getElementById('imagePreviewContainer');
+            const previewImg = document.getElementById('imagePreview');
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = ev => {
+                    previewImg.src = ev.target.result;
+                    previewContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewContainer.style.display = 'none';
+                previewImg.src = '';
+                if (file) {
+                    showError('Please select a valid image file.');
+                    this.value = '';
+                }
+            }
+        });
+
+        // 视频/音频文件名
+        document.getElementById('videoFile').addEventListener('change', function(e) {
+            document.getElementById('videoFileName').textContent = e.target.files[0]?.name || '';
+        });
+        document.getElementById('audioFile').addEventListener('change', function(e) {
+            document.getElementById('audioFileName').textContent = e.target.files[0]?.name || '';
+        });
+
+        function handlePost(event) {
+            event.preventDefault();
+            clearError();
+
+            const category = document.getElementById('postCategory').value;
+            const type = document.getElementById('postType').value;
+            const isAI = document.getElementById('isAI').checked;
+            let description = '';
+            let content = null;
+            let isValid = true;
+
+            if (!category) { showError('Please select a category.'); isValid = false; }
+            if (!type) { showError('Please select a content type.'); isValid = false; }
+
+            if (!isValid) return false;
+
+            const submitBtn = document.querySelector('input[type="submit"]');
+            submitBtn.value = 'wait...';
+            submitBtn.disabled = true;
+
+            const handleFinalSave = (data) => {
+                content = data;
+                const now = new Date();
+                const dateStr = now.toISOString().slice(0, 10);
+                const spans = getRandomSpan(type);
+                const post = {
+                    id: Date.now(),
+                    category, type,
+                    user: currentUser.name,
+                    avatar: currentUser.avatar,
+                    date: dateStr,
+                    content,
+                    description: description || '',
+                    isAI,
+                    spans
+                };
+
+                let savedPosts = localStorage.getItem('efo_posts');
+                let postsArray = savedPosts ? JSON.parse(savedPosts) : [];
+                postsArray.unshift(post);
+                localStorage.setItem('efo_posts', JSON.stringify(postsArray));
+
+                submitBtn.value = 'post';
+                submitBtn.disabled = false;
+                const errorMsg = document.getElementById('errorMsg');
+                errorMsg.textContent = '✓ Post published successfully!';
+                errorMsg.style.color = '#006600';
+                resetForm();
+                setTimeout(() => {
+                    if (errorMsg.textContent.startsWith('✓')) errorMsg.textContent = '';
+                }, 3000);
+            };
+
+            const readFileAsDataURL = (file, callback) => {
+                const reader = new FileReader();
+                reader.onload = (e) => callback(e.target.result);
+                reader.readAsDataURL(file);
+            };
+
+            try {
+                switch (type) {
+                    case 'text':
+                        const text = document.getElementById('textContent').value.trim();
+                        if (!text) { showError('Please write some text.'); isValid = false; }
+                        else handleFinalSave(text);
+                        break;
+                    case 'image':
+                        const imgFile = document.getElementById('imageFile').files[0];
+                        description = document.getElementById('imageDesc').value.trim();
+                        if (!imgFile) { showError('Please select an image file.'); isValid = false; }
+                        else readFileAsDataURL(imgFile, handleFinalSave);
+                        break;
+                    case 'video':
+                        const vidFile = document.getElementById('videoFile').files[0];
+                        description = document.getElementById('videoDesc').value.trim();
+                        if (!vidFile) { showError('Please select a video file.'); isValid = false; }
+                        else readFileAsDataURL(vidFile, handleFinalSave);
+                        break;
+                    case 'audio':
+                        const audFile = document.getElementById('audioFile').files[0];
+                        description = document.getElementById('audioDesc').value.trim();
+                        if (!audFile) { showError('Please select an audio file.'); isValid = false; }
+                        else readFileAsDataURL(audFile, handleFinalSave);
+                        break;
+                }
+            } catch (e) {
+                showError('An error occurred while processing your file.');
+                console.error(e);
+                submitBtn.value = 'post';
+                submitBtn.disabled = false;
+                isValid = false;
+            }
+
+            if (!isValid) {
+                submitBtn.value = 'post';
+                submitBtn.disabled = false;
+            }
+
+            return false;
+        }
+
+        function getRandomSpan(type) {
+            const spans = ['', 'span-2w', 'span-2h', 'span-2x2', 'span-3w'];
+            if (type === 'text') return spans[Math.floor(Math.random() * 3)];
+            if (type === 'image') return spans[Math.floor(Math.random() * 3) + 2];
+            if (type === 'video') return 'span-2x2';
+            if (type === 'audio') return 'span-2w';
+            return '';
+        }
+
+        function resetForm() {
+            document.getElementById('postForm').reset();
+            document.getElementById('imagePreviewContainer').style.display = 'none';
+            document.getElementById('imagePreview').src = '';
+            document.getElementById('videoFileName').textContent = '';
+            document.getElementById('audioFileName').textContent = '';
+            // 隐藏所有内容字段
+            ['text','image','video','audio'].forEach(t => {
+                if (t === 'text') {
+                    document.getElementById('textFieldRow').style.display = 'none';
+                    document.getElementById('textFieldTextarea').style.display = 'none';
+                } else {
+                    document.getElementById(t+'FieldRow').style.display = 'none';
+                    document.getElementById(t+'FieldInput').style.display = 'none';
+                    document.getElementById(t+'DescRow').style.display = 'none';
+                    document.getElementById(t+'DescInput').style.display = 'none';
+                }
+            });
+            clearError();
+        }
+
+        function showError(msg) {
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.textContent = '⚠ ' + msg;
+            errorMsg.style.color = '#cc0000';
+        }
+
+        function clearError() {
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.textContent = '';
+        }
+
+        // 初始状态
+        toggleContentFields();
+    </script>
+</body>
+</html>

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore - EFO</title>
+    <style>
+        :root {
+            --bg-gray: #d4d0c8;
+            --title-blue: #000080;
+            --text-dark: #000;
+            --card-bg: #ece8e0;
+            --card-hover: #f4f0e8;
+            --maroon: #cc0000;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: url("./BG.png") no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Times New Roman', '宋体', serif;
+            font-size: 16px;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 顶部导航栏 — 复古标题条 */
+        .top-bar {
+            background: var(--title-blue);
+            color: #fff;
+            font-weight: bold;
+            padding: 6px 14px;
+            font-size: 17px;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            border-bottom: 2px solid #000060;
+        }
+        .top-bar .nav-links a {
+            color: #fff;
+            font-size: 14px;
+            margin-left: 16px;
+            text-decoration: none;
+            font-weight: normal;
+            letter-spacing: 0.2px;
+        }
+        .top-bar .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* 分类筛选条 */
+        .filter-strip {
+            background: #c8c4b8;
+            padding: 7px 14px;
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            align-items: center;
+            flex-shrink: 0;
+            border-bottom: 1px solid #aaa;
+        }
+        .filter-label {
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+            margin-right: 4px;
+            letter-spacing: 0.3px;
+        }
+        .filter-btn {
+            border: 1px solid #999;
+            background: #d4d0c8;
+            padding: 4px 14px;
+            font-family: 'Times New Roman', '宋体', serif;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--text-dark);
+            letter-spacing: 0.3px;
+            transition: background 0.1s;
+            white-space: nowrap;
+        }
+        .filter-btn:hover { background: #e0dcd4; }
+        .filter-btn.active {
+            background: #b0aca0;
+            border-style: inset;
+            color: #fff;
+        }
+
+        /* 主内容区 — 占满剩余空间 */
+        .content-area {
+            flex: 1;
+            padding: 12px 10px;
+            background: #d8d4cc;
+            overflow-y: auto;
+        }
+
+        /* 网格 — 自适应宽列，填充屏幕 */
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            grid-auto-rows: 150px;
+            gap: 10px;
+            grid-auto-flow: dense;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .post-card {
+            border: 1px solid #bbb;
+            background: var(--card-bg);
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: background 0.12s, box-shadow 0.12s;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.06);
+            min-width: 0;
+            position: relative;
+        }
+        .post-card:hover {
+            background: var(--card-hover);
+            box-shadow: 1px 1px 6px rgba(0,0,0,0.12);
+            border-color: #999;
+        }
+
+        .post-card.span-2w { grid-column: span 2; }
+        .post-card.span-2h { grid-row: span 2; }
+        .post-card.span-2x2 { grid-column: span 2; grid-row: span 2; }
+        .post-card.span-3w { grid-column: span 3; }
+
+        .card-body {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            min-height: 0;
+        }
+
+        .card-body.image-content { padding: 0; }
+        .card-body.image-content img,
+        .card-body.image-content svg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-body.video-content {
+            background: #1a1a2e;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            color: #fff;
+        }
+        .play-triangle {
+            width: 0;
+            height: 0;
+            border-left: 28px solid #fff;
+            border-top: 18px solid transparent;
+            border-bottom: 18px solid transparent;
+            opacity: 0.9;
+            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.5));
+        }
+        .video-label {
+            color: #ccc;
+            font-size: 11px;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+
+        .card-body.audio-content {
+            background: #f5f0e0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .audio-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 5px;
+            height: 40px;
+        }
+        .audio-bar {
+            width: 7px;
+            background: #6b5b3a;
+            border: 1px outset #8a7a5a;
+        }
+        .audio-bar:nth-child(1) { height: 22px; }
+        .audio-bar:nth-child(2) { height: 34px; }
+        .audio-bar:nth-child(3) { height: 16px; }
+        .audio-bar:nth-child(4) { height: 28px; }
+        .audio-bar:nth-child(5) { height: 20px; }
+        .audio-bar:nth-child(6) { height: 24px; }
+        .audio-bar:nth-child(7) { height: 18px; }
+        .audio-note { font-size: 18px; color: #5a4a2a; }
+
+        .card-body.text-content {
+            padding: 10px 12px;
+            align-items: flex-start;
+            justify-content: flex-start;
+            font-family: 'Courier New', 'SimSun', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #333;
+            overflow-y: auto;
+            word-break: break-word;
+            display: block;
+        }
+        .card-body.text-content.large-text {
+            font-size: 16px;
+            line-height: 1.6;
+            padding: 14px 16px;
+        }
+
+        .card-description {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.65);
+            color: #fff;
+            font-size: 11px;
+            padding: 3px 8px;
+            font-family: 'Courier New', monospace;
+            line-height: 1.3;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 6px;
+            border-top: 1px solid #ccc;
+            background: #e4e0d8;
+            flex-shrink: 0;
+            min-height: 30px;
+            font-size: 10px;
+        }
+        .card-avatar {
+            width: 22px;
+            height: 22px;
+            border: 1px solid #bbb;
+            overflow: hidden;
+            border-radius: 2px;
+            background: #fff;
+            flex-shrink: 0;
+        }
+        .card-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .card-user {
+            font-weight: bold;
+            color: #444;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1 1 auto;
+            min-width: 0;
+            font-size: 10px;
+        }
+        .card-category {
+            color: #555;
+            background: #d4d0c8;
+            border: 1px solid #bbb;
+            padding: 0px 4px;
+            font-size: 9px;
+            white-space: nowrap;
+        }
+        .card-ai {
+            color: #cc0000;
+            font-weight: bold;
+            font-size: 9px;
+            margin-left: 2px;
+            white-space: nowrap;
+        }
+        .card-date {
+            color: #777;
+            font-family: 'Courier New', monospace;
+            font-size: 9px;
+            margin-left: auto;
+            white-space: nowrap;
+        }
+
+        .page-footer {
+            text-align: center;
+            font-size: 13px;
+            color: #555;
+            padding: 14px 0 12px;
+            flex-shrink: 0;
+            line-height: 1.5;
+            opacity: 0.8;
+            background: #c8c4b8;
+            border-top: 1px solid #aaa;
+        }
+        .page-footer a { color: #0000ee; }
+
+        @media (max-width: 600px) {
+            .posts-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                grid-auto-rows: 130px;
+                gap: 6px;
+            }
+            .post-card.span-2w,
+            .post-card.span-3w { grid-column: span 2; }
+            .post-card.span-2x2 { grid-column: span 2; grid-row: span 2; }
+            .content-area { padding: 8px 4px; }
+        }
+        @media (max-width: 400px) {
+            .posts-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 120px;
+                gap: 4px;
+            }
+            .post-card.span-2w,
+            .post-card.span-3w,
+            .post-card.span-2x2 { grid-column: span 2; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航条 -->
+    <div class="top-bar">
+        <span>:: Explore - EFO ::</span>
+        <span class="nav-links">
+            <a href="post.html">+ Post</a>
+            <a href="main.html">Main</a>
+        </span>
+    </div>
+
+    <!-- 分类筛选 -->
+    <div class="filter-strip">
+        <span class="filter-label">Category:</span>
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="travel">Travel</button>
+        <button class="filter-btn" data-filter="rant">Rant</button>
+        <button class="filter-btn" data-filter="study">Study</button>
+        <button class="filter-btn" data-filter="life">Life</button>
+    </div>
+
+    <!-- 主内容区 — 全屏网格 -->
+    <div class="content-area">
+        <div class="posts-grid" id="postsGrid"></div>
+    </div>
+
+    <!-- 底部 -->
+    <div class="page-footer">
+        "我点燃了火，却控制不了它" &nbsp;|&nbsp;
+        &copy; 2026 EFO. Some rights reserved. &nbsp;|&nbsp;
+        <a href="main.html">Back to Main</a>
+    </div>
+
+    <script>
+        (function() {
+            // 头像库
+            const avatarLibrary = {
+                dmz: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%234f46e5'/%3E%3Ccircle cx='50' cy='38' r='16' fill='%23fff'/%3E%3Cpath d='M30 65 Q50 80 70 65' stroke='%23fff' stroke-width='6' fill='none'/%3E%3C/svg%3E",
+                Zara: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23339933'/%3E%3Ccircle cx='35' cy='40' r='8' fill='%23fff'/%3E%3Ccircle cx='65' cy='40' r='8' fill='%23fff'/%3E%3Cpath d='M35 70 Q50 85 65 70' stroke='%23fff' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E",
+                Lumina: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23e74c3c'/%3E%3Ccircle cx='38' cy='42' r='6' fill='%23fff'/%3E%3Ccircle cx='62' cy='42' r='6' fill='%23fff'/%3E%3Cellipse cx='50' cy='70' rx='12' ry='8' fill='%23fff'/%3E%3C/svg%3E",
+                Kael: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23f1c40f'/%3E%3Ccircle cx='35' cy='40' r='7' fill='%23000'/%3E%3Ccircle cx='65' cy='40' r='7' fill='%23000'/%3E%3Cpath d='M40 70 Q50 60 60 70' stroke='%23000' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E",
+                Sage: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%238e44ad'/%3E%3Ccircle cx='50' cy='38' r='14' fill='%23fff'/%3E%3Crect x='35' y='55' width='30' height='8' rx='4' fill='%23fff'/%3E%3C/svg%3E"
+            };
+
+            // 预设示例帖子
+            const samplePosts = [
+                { id: 1001, category: 'travel', type: 'image', user: 'dmz', avatar: avatarLibrary.dmz,
+                    date: '2026-07-13', spans: 'span-2x2', description: 'Sunset over the canyon ridge.',
+                    content: `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="300" fill="#1a1a3e"/><circle cx="220" cy="80" r="40" fill="#f5c842" opacity="0.95"/><polygon points="0,180 60,70 130,150 200,90 300,170 300,300 0,300" fill="#2d5a3f"/><polygon points="0,220 80,140 160,200 240,130 300,210 300,300 0,300" fill="#3a7a4f" opacity="0.8"/><rect x="0" y="250" width="300" height="50" fill="#4a3a2a"/><rect x="30" y="200" width="18" height="50" fill="#3a3020" rx="1"/><rect x="80" y="190" width="14" height="60" fill="#3a3020" rx="1"/></svg>`,
+                    isAI: false },
+                { id: 1002, category: 'rant', type: 'text', user: 'Zara', avatar: avatarLibrary.Zara,
+                    date: '2026-07-12', spans: '', description: '',
+                    content: '"The fire I kindled burns beyond my control. Yet in its light, we find each other."',
+                isAI: false },
+                { id: 1003, category: 'travel', type: 'image', user: 'Lumina', avatar: avatarLibrary.Lumina,
+                    date: '2026-07-12', spans: 'span-2w', description: 'Northern lights in monochrome.',
+                    content: `<svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg"><rect width="400" height="150" fill="#1e1e3a"/><circle cx="340" cy="40" r="30" fill="#f0d060"/><polygon points="0,90 50,40 100,80 180,50 280,90 350,60 400,100 400,150 0,150" fill="#4a3060"/><polygon points="0,110 70,60 150,100 250,70 350,110 400,95 400,150 0,150" fill="#6a4080" opacity="0.7"/></svg>`,
+                    isAI: true },
+                { id: 1004, category: 'study', type: 'video', user: 'Kael', avatar: avatarLibrary.Kael,
+                    date: '2026-07-11', spans: 'span-2h', description: 'Lecture on epistemic humility.',
+                    content: '', isAI: false },
+                { id: 1005, category: 'life', type: 'text', user: 'Sage', avatar: avatarLibrary.Sage,
+                    date: '2026-07-11', spans: '', description: '',
+                    content: 'A brief note on epistemic humility: knowing what we don\'t know is the first step toward truth.',
+                isAI: false },
+                { id: 1006, category: 'travel', type: 'image', user: 'dmz', avatar: avatarLibrary.dmz,
+                    date: '2026-07-10', spans: '', description: 'Old town cobblestone.',
+                    content: `<svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg"><rect width="150" height="150" fill="#e8d5b7"/><circle cx="75" cy="65" r="30" fill="#d4a574" opacity="0.8"/><rect x="30" y="90" width="90" height="60" fill="#8b7355" rx="4"/><rect x="50" y="75" width="50" height="20" fill="#6b5340" rx="2"/></svg>`,
+                    isAI: false },
+                { id: 1007, category: 'life', type: 'audio', user: 'Zara', avatar: avatarLibrary.Zara,
+                    date: '2026-07-10', spans: 'span-2w', description: 'Field recording: morning birds.',
+                    content: '', isAI: false },
+                { id: 1008, category: 'study', type: 'text', user: 'Lumina', avatar: avatarLibrary.Lumina,
+                    date: '2026-07-09', spans: '', description: '',
+                    content: 'Facts are stubborn things. Let us build our house upon them, brick by brick.',
+                isAI: false },
+                { id: 1009, category: 'rant', type: 'video', user: 'Kael', avatar: avatarLibrary.Kael,
+                    date: '2026-07-09', spans: 'span-2x2', description: 'Rant: on digital tribalism.',
+                    content: '', isAI: true },
+                { id: 1010, category: 'travel', type: 'image', user: 'Sage', avatar: avatarLibrary.Sage,
+                    date: '2026-07-08', spans: '', description: 'City skyline at dusk.',
+                    content: `<svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg"><rect width="150" height="150" fill="#c8d8e8"/><rect x="20" y="30" width="40" height="55" fill="#8899aa" rx="2"/><rect x="70" y="15" width="55" height="75" fill="#7788a0" rx="2"/><rect x="25" y="90" width="110" height="8" fill="#667788"/><circle cx="40" cy="20" r="8" fill="#ffcc44"/></svg>`,
+                    isAI: false },
+                { id: 1011, category: 'life', type: 'audio', user: 'dmz', avatar: avatarLibrary.dmz,
+                    date: '2026-07-08', spans: '', description: 'Podcast snippet: on silence.',
+                    content: '', isAI: false },
+                { id: 1012, category: 'study', type: 'text', user: 'Zara', avatar: avatarLibrary.Zara,
+                    date: '2026-07-07', spans: 'span-3w', description: '',
+                    content: '"In the realm of rational discourse, every voice must earn its place not through volume, but through verifiable truth and genuine goodwill. This is the cornerstone of our covenant."',
+                    isAI: false, largeText: true },
+                { id: 1013, category: 'rant', type: 'image', user: 'Lumina', avatar: avatarLibrary.Lumina,
+                    date: '2026-07-07', spans: '', description: 'Graffiti: "Truth over comfort".',
+                    content: `<svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg"><rect width="150" height="150" fill="#3a2a1a"/><circle cx="75" cy="55" r="35" fill="#ff9944" opacity="0.7"/><rect x="0" y="100" width="150" height="50" fill="#2a1a0a"/><circle cx="50" cy="40" r="12" fill="#ffbb66" opacity="0.5"/><circle cx="100" cy="35" r="8" fill="#ffbb66" opacity="0.4"/></svg>`,
+                    isAI: false },
+                { id: 1014, category: 'travel', type: 'text', user: 'Kael', avatar: avatarLibrary.Kael,
+                    date: '2026-07-06', spans: '', description: '',
+                    content: 'Mountain paths teach patience. Each step a small victory over the gravity of haste.',
+                isAI: false },
+                { id: 1015, category: 'life', type: 'video', user: 'Sage', avatar: avatarLibrary.Sage,
+                    date: '2026-07-05', spans: 'span-2w', description: 'Time-lapse: garden growth.',
+                    content: '', isAI: true },
+                { id: 1016, category: 'study', type: 'image', user: 'dmz', avatar: avatarLibrary.dmz,
+                    date: '2026-07-05', spans: '', description: 'Library corner, afternoon.',
+                    content: `<svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg"><rect width="150" height="150" fill="#1a2a1a"/><circle cx="75" cy="75" r="50" fill="#2d5a3f" opacity="0.8"/><rect x="50" y="50" width="50" height="50" fill="#f5f0e0" rx="5"/></svg>`,
+                    isAI: false },
+            ];
+
+            // 合并示例帖子 + 本地存储帖子
+            const saved = localStorage.getItem('efo_posts');
+            const userPosts = saved ? JSON.parse(saved) : [];
+            // 合并去重（以id为准）
+            const allIds = new Set(userPosts.map(p => p.id));
+            const mergedPosts = [...userPosts];
+            samplePosts.forEach(sp => {
+                if (!allIds.has(sp.id)) {
+                    mergedPosts.push(sp);
+                    allIds.add(sp.id);
+                }
+            });
+            // 按日期降序
+            const postsData = mergedPosts.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+            const categoryLabels = { travel: 'Travel', rant: 'Rant', study: 'Study', life: 'Life' };
+
+            function createCardHTML(post) {
+                const categoryLabel = categoryLabels[post.category] || post.category;
+                const shortDate = post.date ? post.date.slice(5) : '??-??';
+                let bodyHTML = '';
+                if (post.type === 'image') {
+                    bodyHTML = `
+                    <div class="card-body image-content" style="position:relative;">
+                        ${post.content}
+                        ${post.description ? `<div class="card-description">${post.description}</div>` : ''}
+                    </div>`;
+                } else if (post.type === 'video') {
+                    bodyHTML = `
+                    <div class="card-body video-content" style="position:relative;">
+                        <div class="play-triangle"></div>
+                        <span class="video-label">VIDEO</span>
+                        ${post.description ? `<div class="card-description">${post.description}</div>` : ''}
+                    </div>`;
+                } else if (post.type === 'audio') {
+                    bodyHTML = `
+                    <div class="card-body audio-content" style="position:relative;">
+                        <span class="audio-note">&#9835; &#9836;</span>
+                        <div class="audio-bars">
+                            <div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div>
+                            <div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div>
+                            <div class="audio-bar"></div>
+                        </div>
+                        ${post.description ? `<div class="card-description">${post.description}</div>` : ''}
+                    </div>`;
+                } else if (post.type === 'text') {
+                    const textClass = post.largeText ? 'large-text' : '';
+                    bodyHTML = `<div class="card-body text-content ${textClass}">${post.content}</div>`;
+                }
+                return `
+                <div class="post-card ${post.spans || ''}" data-category="${post.category}" data-date="${post.date}">
+                    ${bodyHTML}
+                    <div class="card-footer">
+                        <div class="card-avatar"><img src="${post.avatar}" alt="${post.user}"></div>
+                        <span class="card-user">${post.user}</span>
+                        <span class="card-category">${categoryLabel}</span>
+                        ${post.isAI ? '<span class="card-ai">AI</span>' : ''}
+                        <span class="card-date">${shortDate}</span>
+                    </div>
+                </div>`;
+            }
+
+            function renderPosts() {
+                const grid = document.getElementById('postsGrid');
+                if (!postsData.length) {
+                    grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#666;font-family:Courier New,monospace;padding:40px;">No posts yet. <a href="post.html">Publish the first one.</a></p>';
+                    return;
+                }
+                grid.innerHTML = postsData.map(p => createCardHTML(p)).join('');
+            }
+
+            function setupFilters() {
+                const filterButtons = document.querySelectorAll('.filter-btn');
+                const grid = document.getElementById('postsGrid');
+                filterButtons.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        filterButtons.forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        const filter = this.getAttribute('data-filter');
+                        document.querySelectorAll('.post-card').forEach(card => {
+                            const cat = card.getAttribute('data-category');
+                            card.style.display = (filter === 'all' || cat === filter) ? '' : 'none';
+                        });
+                        grid.style.display = 'none';
+                        grid.offsetHeight;
+                        grid.style.display = '';
+                    });
+                });
+            }
+
+            // 键盘快捷键
+            document.addEventListener('keydown', function(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+                const keyMap = { '1': 'all', '2': 'travel', '3': 'rant', '4': 'study', '5': 'life' };
+                const filter = keyMap[e.key];
+                if (filter) {
+                    const btn = document.querySelector(`.filter-btn[data-filter="${filter}"]`);
+                    if (btn) btn.click();
+                }
+            });
+
+            renderPosts();
+            setupFilters();
+        })();
+    </script>
+</body>
+</html>

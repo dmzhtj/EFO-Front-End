@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - EFO</title>
+    <style>
+        :root {
+            --bg-gray: #d4d0c8;
+            --title-blue: #000080;
+            --border-light: #fff;
+            --text-dark: #000;
+            --text-gray: #333;
+            --link-blue: #0000ee;
+            --link-visited: #551a8b;
+            --maroon: #cc0000;
+            --disabled-text: #888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: url("./BG.png") no-repeat center center fixed;
+            background-size: 100% 100%;
+            font-family: 'Times New Roman', '宋体', serif;
+            font-size: 19px;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 26vh;    /* 增加上边距，整体下移 */
+        }
+
+        table.main {
+            width: 480px;
+            border: 2px outset var(--border-light);
+            background: var(--bg-gray);
+            border-collapse: collapse;
+            height: fit-content;
+        }
+
+        table.main td.title-bar {
+            background: var(--title-blue);
+            color: var(--border-light);
+            font-weight: bold;
+            padding: 3px 6px;
+            font-size: 17px;
+            text-align: left;
+            letter-spacing: 0.5px;
+        }
+
+        table.main td.content {
+            padding: 12px 18px;   /* 缩小内容区内边距 */
+        }
+
+        table.form {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table.form td {
+            padding: 2px 0;       /* 缩小行间距 */
+        }
+        table.form td.label {
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            border: 2px inset var(--border-light);
+            background: #fff;
+            padding: 5px 6px;     /* 缩小输入框内边距 */
+            font-family: 'Courier New', monospace;
+            font-size: 17px;
+            color: var(--text-dark);
+            outline: none;
+            transition: background 0.15s ease;
+        }
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="email"]:focus {
+            background: #fffff0;
+        }
+        input.error {
+            border-color: #cc0000 !important;
+            background: #fff0f0 !important;
+        }
+
+        .btn-row {
+            text-align: center;
+            padding-top: 12px;    /* 缩小按钮区域顶部间距 */
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        input[type="submit"],
+        input[type="reset"],
+        .btn-back {
+            border: 2px outset var(--border-light);
+            background: var(--bg-gray);
+            padding: 5px 18px;
+            font-family: 'Times New Roman', '宋体', serif;
+            font-size: 17px;
+            cursor: pointer;
+            color: var(--text-dark);
+            min-width: 70px;
+            letter-spacing: 0.3px;
+            transition: background 0.1s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        input[type="submit"]:hover,
+        input[type="reset"]:hover,
+        .btn-back:hover {
+            background: #c8c4bc;
+        }
+        input[type="submit"]:active,
+        input[type="reset"]:active,
+        .btn-back:active {
+            border-style: inset;
+        }
+        input[type="submit"]:disabled {
+            color: var(--disabled-text);
+            cursor: wait;
+        }
+
+        a {
+            color: var(--link-blue);
+            text-decoration: underline;
+            font-size: 16px;
+            transition: color 0.15s;
+        }
+        a:visited {
+            color: var(--link-visited);
+        }
+        a:hover {
+            color: #3333ff;
+        }
+
+        hr {
+            border: 1px inset var(--border-light);
+            margin: 10px 0 6px 0;  /* 缩小分隔线间距 */
+        }
+
+        .error-msg {
+            color: #cc0000;
+            font-size: 13px;
+            font-weight: bold;
+            min-height: 16px;
+            text-align: center;
+            margin-top: 2px;
+            letter-spacing: 0.2px;
+            line-height: 1.3;
+        }
+
+        .hint-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 1px;
+            font-style: italic;
+        }
+
+        .link-row {
+            text-align: center;
+        }
+
+        marquee {
+            font-size: 15px;
+            color: var(--maroon);
+            font-weight: bold;
+            margin-bottom: 4px;    /* 缩小滚动字幕下边距 */
+            display: block;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 15px;
+            color: var(--text-dark);
+            padding: 20px 0 16px;
+            flex-shrink: 0;
+            line-height: 1.6;
+            opacity: 0.85;
+        }
+
+        @media (max-width: 460px) {
+            table.main {
+                width: 93vw;
+            }
+            table.main td.content {
+                padding: 10px 14px;
+            }
+            .page-content {
+                padding-top: 12vh;
+            }
+            input[type="text"],
+            input[type="password"],
+            input[type="email"] {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-content">
+        <table class="main">
+            <tr>
+                <td class="title-bar">:: Sign Up - EFO ::</td>
+            </tr>
+            <tr>
+                <td class="content">
+                    <marquee scrollamount="3" behavior="scroll">
+                        ★ JOIN THE EARTH FUTURE ORGANIZATION - FILL IN ALL FIELDS ★
+                    </marquee>
+
+                    <form id="signupForm" method="post" action="#" onsubmit="return handleSignup(event)">
+                        <table class="form">
+                            <tr>
+                                <td class="label">username:</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name="username" id="usernameInput" placeholder="Choose a username" autocomplete="username" required minlength="3" maxlength="24">
+                                    <div class="hint-text">3-24 characters, letters &amp; numbers only.</div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label">email:</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="email" name="email" id="emailInput" placeholder="Your real email address" autocomplete="email" required>
+                                    <div class="hint-text">A verification code will be sent to this address.</div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label">password:</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="password" name="password" id="passwordInput" placeholder="Create a password" autocomplete="new-password" required minlength="8">
+                                    <div class="hint-text">At least 8 characters, include a number.</div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label">confirm:</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="password" name="confirm" id="confirmInput" placeholder="Re-type your password" autocomplete="new-password" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label">why join?</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" name="reason" id="reasonInput" placeholder="Tell us briefly why you want to join" required minlength="10">
+                                    <div class="hint-text">Sincere answers are valued. Copy-paste or empty phrases will be rejected.</div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="error-msg" id="errorMsg"></div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="btn-row">
+                                        <input type="submit" value="register">
+                                        <input type="reset" value="clear" onclick="clearAllErrors()">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+
+                    <hr>
+                    <div class="link-row">
+                        Already have an account? <a href="#">Log In</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="footer">
+        "我点燃了火，却控制不了它"<br>
+        &copy; 2026 EFO. Some rights reserved.
+    </div>
+
+    <script>
+        function handleSignup(event) {
+            event.preventDefault();
+            clearAllErrors();
+
+            const usernameInput = document.getElementById('usernameInput');
+            const emailInput = document.getElementById('emailInput');
+            const passwordInput = document.getElementById('passwordInput');
+            const confirmInput = document.getElementById('confirmInput');
+            const reasonInput = document.getElementById('reasonInput');
+            const errorMsg = document.getElementById('errorMsg');
+            let valid = true;
+
+            const username = usernameInput.value.trim();
+            if (!username) {
+                showError(usernameInput, 'Please enter a username.');
+                valid = false;
+            } else if (username.length < 3) {
+                showError(usernameInput, 'Username must be at least 3 characters.');
+                valid = false;
+            } else if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+                showError(usernameInput, 'Username: only letters, numbers, and underscores.');
+                valid = false;
+            }
+
+            if (valid) {
+                const email = emailInput.value.trim();
+                if (!email) {
+                    showError(emailInput, 'Please enter your email address.');
+                    valid = false;
+                } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    showError(emailInput, 'Please enter a valid email address.');
+                    valid = false;
+                }
+            }
+
+            if (valid) {
+                const password = passwordInput.value;
+                if (!password) {
+                    showError(passwordInput, 'Please create a password.');
+                    valid = false;
+                } else if (password.length < 8) {
+                    showError(passwordInput, 'Password must be at least 8 characters.');
+                    valid = false;
+                } else if (!/[0-9]/.test(password)) {
+                    showError(passwordInput, 'Password must include at least one number.');
+                    valid = false;
+                }
+            }
+
+            if (valid) {
+                const confirm = confirmInput.value;
+                const password = passwordInput.value;
+                if (!confirm) {
+                    showError(confirmInput, 'Please confirm your password.');
+                    valid = false;
+                } else if (confirm !== password) {
+                    showError(confirmInput, 'Passwords do not match.');
+                    valid = false;
+                }
+            }
+
+            if (valid) {
+                const reason = reasonInput.value.trim();
+                if (!reason) {
+                    showError(reasonInput, 'Please tell us why you want to join.');
+                    valid = false;
+                } else if (reason.length < 10) {
+                    showError(reasonInput, 'Please write at least 10 characters.');
+                    valid = false;
+                }
+            }
+
+            if (!valid) return false;
+
+            const submitBtn = document.querySelector('input[type="submit"]');
+            submitBtn.value = 'wait...';
+            submitBtn.disabled = true;
+            submitBtn.style.cursor = 'wait';
+            errorMsg.textContent = '';
+            errorMsg.style.color = '#333';
+
+            setTimeout(function() {
+                submitBtn.value = 'register';
+                submitBtn.disabled = false;
+                submitBtn.style.cursor = 'pointer';
+                errorMsg.textContent = '✓ Registration submitted! Check your email for verification.';
+                errorMsg.style.color = '#006600';
+                console.log('Signup:', { username, email: emailInput.value.trim() });
+            }, 1500);
+
+            return false;
+        }
+
+        function showError(inputElement, message) {
+            inputElement.classList.add('error');
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.textContent = '⚠ ' + message;
+            errorMsg.style.color = '#cc0000';
+            inputElement.focus();
+            setTimeout(function() {
+                inputElement.classList.remove('error');
+            }, 4000);
+        }
+
+        function clearAllErrors() {
+            const inputs = document.querySelectorAll('input.error');
+            inputs.forEach(function(input) {
+                input.classList.remove('error');
+            });
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.textContent = '';
+            errorMsg.style.color = '#cc0000';
+        }
+
+        const allInputs = document.querySelectorAll('input[type="text"], input[type="password"], input[type="email"]');
+        allInputs.forEach(function(input) {
+            input.addEventListener('input', function() {
+                this.classList.remove('error');
+                const anyError = document.querySelector('input.error');
+                if (!anyError) {
+                    document.getElementById('errorMsg').textContent = '';
+                }
+            });
+        });
+
+        const lastInput = document.getElementById('reasonInput');
+        lastInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('signupForm').dispatchEvent(new Event('submit', { cancelable: true }));
+            }
+        });
+
+        console.log(':: EFO Signup System Ready ::');
+    </script>
+
+</body>
+</html>

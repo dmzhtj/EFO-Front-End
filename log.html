@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In - EFO</title>
+    <style>
+        :root {
+            --bg-gray: #d4d0c8;
+            --title-blue: #000080;
+            --border-light: #fff;
+            --text-dark: #000;
+            --text-gray: #333;
+            --link-blue: #0000ee;
+            --link-visited: #551a8b;
+            --maroon: #cc0000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: url("./BG.png") no-repeat center center fixed;
+            background-size: 100% 100%;
+            font-family: 'Times New Roman', '宋体', serif;
+            font-size: 19px;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 28vh;
+        }
+
+        table.main {
+            width: 380px;
+            border: 2px outset var(--border-light);
+            background: var(--bg-gray);
+            border-collapse: collapse;
+            height: fit-content;
+        }
+
+        table.main td.title-bar {
+            background: var(--title-blue);
+            color: var(--border-light);
+            font-weight: bold;
+            padding: 3px 6px;
+            font-size: 17px;
+            text-align: left;
+            letter-spacing: 0.5px;
+        }
+
+        table.main td.content {
+            padding: 20px 24px;
+        }
+
+        table.form {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table.form td {
+            padding: 4px 0;
+        }
+
+        table.form td.label {
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            border: 2px inset var(--border-light);
+            background: #fff;
+            padding: 6px 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            color: var(--text-dark);
+            outline: none;
+            transition: background 0.15s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            background: #fffff0;
+        }
+
+        input[type="text"].error,
+        input[type="password"].error {
+            border-color: #cc0000;
+            background: #fff0f0;
+        }
+
+        .btn-row {
+            text-align: center;
+            padding-top: 19px;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        input[type="submit"],
+        input[type="reset"],
+        .btn-reset {
+            border: 2px outset var(--border-light);
+            background: var(--bg-gray);
+            padding: 5px 20px;
+            font-family: 'Times New Roman', '宋体', serif;
+            font-size: 17px;
+            cursor: pointer;
+            color: var(--text-dark);
+            min-width: 80px;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="submit"]:active,
+        input[type="reset"]:active,
+        .btn-reset:active {
+            border-style: inset;
+        }
+
+        input[type="submit"]:hover,
+        input[type="reset"]:hover,
+        .btn-reset:hover {
+            background: #c8c4bc;
+        }
+
+        a {
+            color: var(--link-blue);
+            text-decoration: underline;
+            font-size: 16px;
+            transition: color 0.15s ease;
+        }
+
+        a:visited {
+            color: var(--link-visited);
+        }
+
+        a:hover {
+            color: #3333ff;
+        }
+
+        hr {
+            border: 1px inset var(--border-light);
+            margin: 14px 0 10px 0;
+        }
+
+        .link-row {
+            text-align: center;
+        }
+
+        marquee {
+            font-size: 16px;
+            color: var(--maroon);
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .error-msg {
+            color: #cc0000;
+            font-size: 13px;
+            font-weight: bold;
+            min-height: 18px;
+            text-align: center;
+            margin-top: 4px;
+            letter-spacing: 0.3px;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 15px;
+            color: var(--text-dark);
+            padding: 24px 0 18px;
+            flex-shrink: 0;
+            line-height: 1.6;
+            opacity: 0.85;
+        }
+
+        .counter {
+            text-align: center;
+            font-size: 15px;
+            color: var(--text-gray);
+            margin-top: 11px;
+        }
+
+        /* 响应式微调 */
+        @media (max-width: 420px) {
+            table.main {
+                width: 92vw;
+            }
+            table.main td.content {
+                padding: 16px 16px;
+            }
+            .page-content {
+                padding-top: 15vh;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-content">
+        <table class="main">
+            <tr>
+                <td class="title-bar">:: Log In ::</td>
+            </tr>
+            <tr>
+                <td class="content">
+                    <marquee scrollamount="3" behavior="scroll">
+                        ★ WELCOME ABOARD THE NEW WEB ★
+                    </marquee>
+
+                    <form id="loginForm" method="post" action="#" onsubmit="return handleLogin(event)">
+                        <table class="form">
+                            <tr>
+                                <td class="label">user:</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input
+                                    type="text"
+                                    name="user"
+                                    id="userInput"
+                                    placeholder="Enter username"
+                                    autocomplete="username"
+                                    required
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label">pin:</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input
+                                    type="password"
+                                    name="pin"
+                                    id="pinInput"
+                                    placeholder="Enter PIN"
+                                    autocomplete="current-password"
+                                    required
+                                    minlength="4"
+                                    >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="error-msg" id="errorMsg"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="btn-row">
+                                        <input type="submit" value="submit">
+                                        <input type="reset" value="reset" onclick="clearErrors()">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+
+                    <hr>
+                    <div class="link-row">
+                        <a href="#" onclick="showForgotMessage(event)">Forgot PIN?</a>
+                        &nbsp;|&nbsp;
+                        <a href="#">Sign Up</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="counter">
+        You are visitor # <b>000042</b>
+    </div>
+
+    <div class="footer">
+        "我点燃了火，却控制不了它"<br>
+        &copy; 2026 EFO. Some rights reserved.
+    </div>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            clearErrors();
+
+            const userInput = document.getElementById('userInput');
+            const pinInput = document.getElementById('pinInput');
+            const errorMsg = document.getElementById('errorMsg');
+            let valid = true;
+
+            // 验证用户名
+            const username = userInput.value.trim();
+            if (!username) {
+                showError(userInput, 'Please enter a username.');
+                valid = false;
+            } else if (username.length < 2) {
+                showError(userInput, 'Username must be at least 2 characters.');
+                valid = false;
+            }
+
+            // 验证PIN
+            const pin = pinInput.value;
+            if (!pin) {
+                showError(pinInput, 'Please enter your PIN.');
+                valid = false;
+            } else if (pin.length < 4) {
+                showError(pinInput, 'PIN must be at least 4 characters.');
+                valid = false;
+            }
+
+            if (!valid) return false;
+
+            // 模拟登录提交
+            const submitBtn = document.querySelector('input[type="submit"]');
+            submitBtn.value = 'wait...';
+            submitBtn.disabled = true;
+            submitBtn.style.cursor = 'wait';
+            errorMsg.textContent = '';
+            errorMsg.style.color = '#333';
+
+            setTimeout(function() {
+                submitBtn.value = 'submit';
+                submitBtn.disabled = false;
+                submitBtn.style.cursor = 'pointer';
+                errorMsg.textContent = '✓ Login successful! Redirecting...';
+                errorMsg.style.color = '#006600';
+                // 实际跳转可替换为: window.location.href = '/dashboard';
+                console.log('Login:', { username, pin: '***' });
+            }, 1000);
+
+            return false;
+        }
+
+        function showError(inputElement, message) {
+            inputElement.classList.add('error');
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.textContent = '⚠ ' + message;
+            errorMsg.style.color = '#cc0000';
+            inputElement.focus();
+            // 3秒后自动清除错误样式
+            setTimeout(function() {
+                inputElement.classList.remove('error');
+            }, 3000);
+        }
+
+        function clearErrors() {
+            document.getElementById('userInput').classList.remove('error');
+            document.getElementById('pinInput').classList.remove('error');
+            document.getElementById('errorMsg').textContent = '';
+            document.getElementById('errorMsg').style.color = '#cc0000';
+        }
+
+        function showForgotMessage(event) {
+            event.preventDefault();
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.textContent = 'PIN recovery has been sent to your email.';
+            errorMsg.style.color = '#333';
+            setTimeout(function() {
+                if (errorMsg.textContent === 'PIN recovery has been sent to your email.') {
+                    errorMsg.textContent = '';
+                }
+            }, 4000);
+        }
+
+        // 输入时自动清除错误样式
+        document.getElementById('userInput').addEventListener('input', function() {
+            this.classList.remove('error');
+            if (!document.getElementById('pinInput').classList.contains('error')) {
+                document.getElementById('errorMsg').textContent = '';
+            }
+        });
+
+        document.getElementById('pinInput').addEventListener('input', function() {
+            this.classList.remove('error');
+            if (!document.getElementById('userInput').classList.contains('error')) {
+                document.getElementById('errorMsg').textContent = '';
+            }
+        });
+
+        // 回车键快捷提交
+        document.getElementById('pinInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginForm').dispatchEvent(new Event('submit', { cancelable: true }));
+            }
+        });
+
+        console.log(':: EFO Login System Ready ::');
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main - EFO</title>
+    <style>
+        :root {
+            --bg-gray: #d4d0c8;
+            --title-blue: #000080;
+            --border-light: #fff;
+            --text-dark: #000;
+            --text-gray: #333;
+            --link-blue: #0000ee;
+            --link-visited: #551a8b;
+            --maroon: #cc0000;
+            --highlight: #e0e0d0;
+            --avatar-bg: #6b6b6b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: url("./BG.png") no-repeat center center fixed;
+            background-size: 100% 100%;
+            font-family: 'Times New Roman', '宋体', serif;
+            font-size: 19px;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 27vh;
+        }
+
+        table.main {
+            width: 460px;
+            border: 2px outset var(--border-light);
+            background: var(--bg-gray);
+            border-collapse: collapse;
+            height: fit-content;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+        }
+
+        table.main td.title-bar {
+            background: var(--title-blue);
+            color: var(--border-light);
+            font-weight: bold;
+            padding: 4px 6px;
+            font-size: 17px;
+            text-align: left;
+            letter-spacing: 0.5px;
+        }
+
+        table.main td.content {
+            padding: 20px 22px;
+        }
+
+        marquee.welcome {
+            font-size: 16px;
+            color: var(--maroon);
+            font-weight: bold;
+            margin-bottom: 16px;
+            display: block;
+            background: #fff;
+            border: 1px inset #aaa;
+            padding: 4px 8px;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 0.5px;
+        }
+
+        .big-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 16px 12px;
+            margin-bottom: 14px;
+            border: 3px outset var(--border-light);
+            background: #e8e4dc;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Times New Roman', '宋体', serif;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background 0.1s;
+            text-shadow: 1px 1px 0 rgba(255,255,255,0.7);
+            box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        .big-btn:hover {
+            background: #f2f0e8;
+            border-color: #ddd;
+        }
+        .big-btn:active {
+            border-style: inset;
+            background: #d8d4cc;
+            box-shadow: none;
+        }
+        .big-btn .icon {
+            font-size: 28px;
+            width: 36px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .post-btn {
+            background: #dde8f0;
+            border-color: #b0c4de;
+        }
+        .post-btn:hover {
+            background: #e6f0f8;
+        }
+
+        .browse-btn {
+            background: #e0f0e0;
+            border-color: #b0d0b0;
+        }
+        .browse-btn:hover {
+            background: #eaf8ea;
+        }
+
+        .account-area {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+            padding: 14px 16px;
+            margin-bottom: 8px;
+            border: 3px outset var(--border-light);
+            background: #f8f4e8;
+            cursor: pointer;
+            transition: background 0.1s;
+            box-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+            font-family: 'Times New Roman', '宋体', serif;
+            font-weight: bold;
+            font-size: 20px;
+            letter-spacing: 0.3px;
+        }
+        .account-area:hover {
+            background: #fffaf0;
+            border-color: #ddd;
+        }
+        .account-area:active {
+            border-style: inset;
+            background: #ece4d8;
+            box-shadow: none;
+        }
+
+        .avatar {
+            width: 52px;
+            height: 52px;
+            border: 2px inset #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: #fff;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .account-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .username {
+            font-size: 22px;
+            font-weight: bold;
+            color: #000;
+            letter-spacing: 0.5px;
+        }
+        .manage-link {
+            font-size: 14px;
+            color: var(--link-blue);
+            text-decoration: underline;
+            font-weight: normal;
+        }
+
+        hr {
+            border: 1px inset var(--border-light);
+            margin: 14px 0 8px;
+        }
+
+        .footer-links {
+            text-align: center;
+            font-size: 15px;
+        }
+        .footer-links a {
+            font-size: 16px;
+            margin: 0 4px;
+        }
+
+        a {
+            color: var(--link-blue);
+            text-decoration: underline;
+            font-size: 16px;
+            transition: color 0.15s;
+        }
+        a:visited {
+            color: var(--link-visited);
+        }
+        a:hover {
+            color: #3333ff;
+        }
+
+        /* 弹窗 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-window {
+            width: 360px;
+            border: 2px outset #fff;
+            background: var(--bg-gray);
+            border-collapse: collapse;
+            box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+            margin-top: -10vh;
+        }
+        .modal-window td.title-bar {
+            background: var(--title-blue);
+            color: #fff;
+            font-weight: bold;
+            padding: 3px 6px;
+            font-size: 15px;
+            text-align: left;
+        }
+        .modal-window td.title-bar .close-btn {
+            float: right;
+            background: #c0c0c0;
+            border: 1px outset #fff;
+            width: 18px;
+            height: 18px;
+            text-align: center;
+            line-height: 14px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            color: #000;
+            margin-left: 4px;
+        }
+        .modal-window td.content {
+            padding: 16px 18px;
+            font-size: 16px;
+        }
+        .modal-field {
+            margin-bottom: 12px;
+        }
+        .modal-field label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .modal-field input[type="text"],
+        .modal-field input[type="email"] {
+            width: 100%;
+            border: 2px inset #fff;
+            padding: 5px 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            background: #fff;
+        }
+        .modal-btn-row {
+            text-align: center;
+            margin-top: 14px;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+        .modal-btn-row input {
+            border: 2px outset #fff;
+            background: var(--bg-gray);
+            padding: 4px 18px;
+            font-family: 'Times New Roman', '宋体', serif;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .modal-btn-row input:active {
+            border-style: inset;
+        }
+
+        .page-footer {
+            text-align: center;
+            font-size: 15px;
+            color: var(--text-dark);
+            padding: 20px 0 16px;
+            flex-shrink: 0;
+            line-height: 1.6;
+            opacity: 0.85;
+        }
+
+        @media (max-width: 500px) {
+            .page-content {
+                padding-top: 18vh;
+            }
+            table.main {
+                width: 94vw;
+            }
+            .big-btn {
+                font-size: 20px;
+                padding: 14px 10px;
+            }
+            .account-area {
+                font-size: 18px;
+                padding: 10px 12px;
+            }
+            .avatar {
+                width: 42px;
+                height: 42px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-content">
+        <table class="main">
+            <tr>
+                <td class="title-bar">:: EFO Main ::</td>
+            </tr>
+            <tr>
+                <td class="content">
+                    <marquee class="welcome" scrollamount="3" behavior="scroll" loop="infinite">
+                        ★ Welcome aboard, <span id="displayUsername">Explorer</span>! Choose an action below.
+                    </marquee>
+
+                    <a href="#" class="big-btn post-btn" onclick="alert('Opening new post editor... (demo)'); return false;">
+                        <span class="icon">&#9998;</span> Post
+                    </a>
+
+                    <a href="#" class="big-btn browse-btn" onclick="alert('Loading discussion board... (demo)'); return false;">
+                        <span class="icon">&#128269;</span> Explore
+                    </a>
+
+                    <div class="account-area" id="accountTrigger">
+                        <div class="avatar" id="avatarContainer">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%234f46e5'/%3E%3Ccircle cx='50' cy='38' r='16' fill='%23fff'/%3E%3Cpath d='M30 65 Q50 80 70 65' stroke='%23fff' stroke-width='6' fill='none'/%3E%3C/svg%3E" alt="Avatar" id="avatarImg">
+                        </div>
+                        <div class="account-info">
+                            <span class="username" id="displayName">JohnDoe</span>
+                            <span class="manage-link">Manage Account</span>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <div class="footer-links">
+                        <a href="#" id="logoutLink">Logout</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- 账户设置弹窗 -->
+    <div class="modal-overlay" id="accountModal">
+        <table class="modal-window">
+            <tr>
+                <td class="title-bar">
+                    Account Settings
+                    <span class="close-btn" id="closeModal">&#10005;</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="content">
+                    <div class="modal-field">
+                        <label>Avatar</label>
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <div class="avatar" id="modalAvatarContainer" style="width:48px;height:48px;cursor:pointer;" title="Click to upload an image">
+                                <img id="modalAvatarImg" src="" alt="Avatar" style="width:100%;height:100%;object-fit:cover;">
+                            </div>
+                            <span style="font-size:13px;">(Click avatar to upload image)</span>
+                        </div>
+                    </div>
+                    <div class="modal-field">
+                        <label for="modalUsername">Username</label>
+                        <input type="text" id="modalUsername" value="JohnDoe" maxlength="16">
+                    </div>
+                    <div class="modal-field">
+                        <label for="modalEmail">Email</label>
+                        <input type="email" id="modalEmail" value="johndoe@example.com">
+                    </div>
+                    <div class="modal-btn-row">
+                        <input type="submit" value="Save" onclick="saveAccount()">
+                        <input type="button" value="Cancel" onclick="closeModal()">
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- 隐藏的文件上传input，支持绝大多数图片格式 -->
+    <input type="file" id="avatarFileInput" accept="image/*" style="display:none;">
+
+    <div class="page-footer">
+        "我点燃了火，却控制不了它"<br>
+        &copy; 2026 EFO. Some rights reserved.
+    </div>
+
+    <script>
+        // 默认头像（SVG用户图标）
+        const defaultAvatar = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%234f46e5'/%3E%3Ccircle cx='50' cy='38' r='16' fill='%23fff'/%3E%3Cpath d='M30 65 Q50 80 70 65' stroke='%23fff' stroke-width='6' fill='none'/%3E%3C/svg%3E";
+
+        // 当前用户数据
+        let account = {
+            username: 'JohnDoe',
+            email: 'johndoe@example.com',
+            avatarSrc: defaultAvatar
+        };
+
+        // DOM元素
+        const avatarImg = document.getElementById('avatarImg');
+        const displayName = document.getElementById('displayName');
+        const displayUsername = document.getElementById('displayUsername');
+        const modalAvatarImg = document.getElementById('modalAvatarImg');
+        const modalAvatarContainer = document.getElementById('modalAvatarContainer');
+        const modalUsername = document.getElementById('modalUsername');
+        const modalEmail = document.getElementById('modalEmail');
+        const avatarFileInput = document.getElementById('avatarFileInput');
+        const accountModal = document.getElementById('accountModal');
+
+        // 初始化
+        updateDisplay();
+
+        // 主界面点击账户区域打开弹窗
+        document.getElementById('accountTrigger').addEventListener('click', openModal);
+
+        // 弹窗关闭按钮与遮罩关闭
+        document.getElementById('closeModal').addEventListener('click', closeModal);
+        accountModal.addEventListener('click', function(e) {
+            if (e.target === accountModal) closeModal();
+        });
+
+        // 点击弹窗头像触发文件选择
+        modalAvatarContainer.addEventListener('click', function() {
+            avatarFileInput.click();
+        });
+
+        // 文件选择后的处理
+        avatarFileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // 检查是否为图片类型
+            if (!file.type.startsWith('image/')) {
+                alert('Please select a valid image file.');
+                avatarFileInput.value = ''; // 清空选择
+                return;
+            }
+
+            // 读取为Data URL
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                const dataURL = ev.target.result;
+                modalAvatarImg.src = dataURL;  // 弹窗预览
+            };
+            reader.readAsDataURL(file);
+        });
+
+        function openModal() {
+            modalAvatarImg.src = account.avatarSrc;
+            modalUsername.value = account.username;
+            modalEmail.value = account.email;
+            avatarFileInput.value = ''; // 清空之前的文件选择，以便可以重新选择同一文件
+            accountModal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            accountModal.style.display = 'none';
+        }
+
+        function saveAccount() {
+            const newUsername = modalUsername.value.trim();
+            const newEmail = modalEmail.value.trim();
+            const newAvatarSrc = modalAvatarImg.src; // 取当前弹窗头像的src
+
+            if (!newUsername) {
+                alert('Username cannot be empty.');
+                return;
+            }
+            if (!newEmail || !newEmail.includes('@')) {
+                alert('Please enter a valid email.');
+                return;
+            }
+
+            account.username = newUsername;
+            account.email = newEmail;
+            account.avatarSrc = newAvatarSrc;
+
+            updateDisplay();
+            closeModal();
+            alert('Account settings saved successfully!');
+        }
+
+        function updateDisplay() {
+            avatarImg.src = account.avatarSrc;
+            displayName.textContent = account.username;
+            displayUsername.textContent = account.username;
+        }
+
+        // 退出登录
+        document.getElementById('logoutLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to log out?')) {
+                alert('You have been logged out. (Redirecting to login page...)');
+                window.location.href = '#';
+            }
+        });
+
+        // ESC 关闭弹窗
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && accountModal.style.display === 'flex') {
+                closeModal();
+            }
+        });
+
+        console.log(':: EFO Main Dashboard Ready ::');
+    </script>
+
+</body>
+</html>
