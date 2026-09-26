@@ -1,0 +1,92 @@
+<style>
+    :root {
+        --bg-gray: #d4d0c8;
+        --title-blue: #000080;
+        --border-light: #fff;
+        --text-dark: #000;
+        --text-gray: #333;
+        --link-blue: #0000ee;
+        --link-visited: #551a8b;
+        --maroon: #cc0000;
+        --disabled-text: #888;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: url("/static/BG.png") no-repeat center center fixed;
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        font-family: 'Times New Roman', '宋体', serif;
+        font-size: 19px;
+        color: var(--text-dark);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .page-content {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding-top: 24vh;
+    }
+
+    table.main {
+        width: 480px;
+        border: 2px outset var(--border-light);
+        background: var(--bg-gray);
+        border-collapse: collapse;
+        height: fit-content;
+        box-shadow: 2px 2px 0 rgba(0,0,0,0.08);
+    }
+
+    table.main td.title-bar {
+        background: var(--title-blue);
+        color: var(--border-light);
+        font-weight: bold;
+        padding: 3px 6px;
+        font-size: 17px;
+        text-align: left;
+        letter-spacing: 0.5px;
+    }
+
+    table.main td.content {
+        padding: 16px 20px;
+    }
+
+    .footer {
+        text-align: center;
+        font-size: 15px;
+        color: var(--text-dark);
+        padding: 20px 0 16px;
+        flex-shrink: 0;
+        line-height: 1.6;
+        opacity: 0.85;
+    }
+
+    a {
+        color: var(--link-blue);
+        text-decoration: underline;
+        transition: color 0.15s;
+    }
+
+    a:visited {
+        color: var(--link-visited);
+    }
+
+    a:hover {
+        color: #3333ff;
+    }
+
+    hr {
+        border: 1px inset var(--border-light);
+        margin: 12px 0 8px 0;
+    }
+</style>

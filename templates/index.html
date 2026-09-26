@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main - EFO</title>
+    {% include "_shared_theme.html" %}
     <style>
         :root {
             --bg-gray: #d4d0c8;
@@ -347,6 +348,7 @@
     </style>
 </head>
 <body>
+    {% from "_common_ui.html" import footer_block %}
 
     <div class="page-content">
         <table class="main">
@@ -439,10 +441,7 @@
     <input type="file" id="avatarFileInput" name="avatar" accept="image/*" style="display:none;">
     <input type="hidden" name="csrftoken" value="{{csrftoken}}">
     </form>
-    <div class="page-footer">
-        "我点燃了火，却控制不了它"<br>
-        &copy; 2026 EFO. Some rights reserved.
-    </div>
+    {{ footer_block() }}
 
     <script>
         let account = {

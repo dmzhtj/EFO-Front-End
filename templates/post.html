@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post - EFO</title>
+    {% include "_shared_theme.html" %}
     <style>
         :root {
             --bg-gray: #d4d0c8;
@@ -242,10 +243,7 @@
         </table>
     </div>
 
-    <div class="footer">
-        "我点燃了火，却控制不了它"<br>
-        &copy; 2026 EFO. Some rights reserved.
-    </div>
+    {{ footer_block() }}
 
     <script>
 

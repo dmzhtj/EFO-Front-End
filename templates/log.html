@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Log In - EFO</title>
+    {% include "_shared_theme.html" %}
     <style>
         :root {
             --bg-gray: #d4d0c8;
@@ -17,47 +18,12 @@
             --maroon: #cc0000;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: url("/static/BG.png") no-repeat center center fixed;
-            background-size: 100% 100%;
-            font-family: "Times New Roman", "宋体", serif;
-            font-size: 19px;
-            color: var(--text-dark);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
         .page-content {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
             padding-top: 28vh;
         }
 
         table.main {
             width: 380px;
-            border: 2px outset var(--border-light);
-            background: var(--bg-gray);
-            border-collapse: collapse;
-            height: fit-content;
-        }
-
-        table.main td.title-bar {
-            background: var(--title-blue);
-            color: var(--border-light);
-            font-weight: bold;
-            padding: 3px 6px;
-            font-size: 17px;
-            text-align: left;
-            letter-spacing: 0.5px;
         }
 
         table.main td.content {
@@ -212,13 +178,8 @@
 </head>
 
 <body>
-    <div class="page-content">
-        <table class="main">
-            <tr>
-                <td class="title-bar">:: Log In ::</td>
-            </tr>
-            <tr>
-                <td class="content">
+    {% from "_common_ui.html" import form_panel, footer_block %}
+    {% call form_panel(":: Log In ::") %}
                     <marquee scrollamount="3" behavior="scroll">
                         ★ WELCOME ABOARD THE NEW WEB ★
                     </marquee>
@@ -271,17 +232,11 @@
                         &nbsp;|&nbsp;
                         <a href="/useram/">Sign Up</a>
                     </div>
-                </td>
-            </tr>
-        </table>
-    </div>
+                {% endcall %}
 
     <div class="counter">You are visitor # <b>{{usercnt}}</b></div>
 
-    <div class="footer">
-        "我点燃了火，却控制不了它"<br />
-        &copy; 2026 EFO. Some rights reserved.
-    </div>
+    {{ footer_block() }}
 </body>
 
 </html>
