@@ -3,8 +3,24 @@
 <form method="post" action="" enctype="multipart/form-data">
     <input type="hidden" name="id" value="{{id}}"/>
     <input type="hidden" name="csrftoken" value="{{csrftoken}}"/>
-    <div class="text-muted">Data may be html and difficult to read, in order to keep visitors safe.</div>
+    <div class="text-muted">
+        {% if type == "user" %}Registration details for the applicant.{% else %}Data may be html and difficult to read, in order to keep visitors safe.{% endif %}
+    </div>
+    {% if type == "user" %}
+    <div class="card my-3">
+        <div class="card-header font-weight-bold">Registration information</div>
+        <dl class="row card-body mb-0">
+            <dt class="col-sm-3">User ID</dt><dd class="col-sm-9">{{registration.id}}</dd>
+            <dt class="col-sm-3">Username</dt><dd class="col-sm-9">{{registration.username}}</dd>
+            <dt class="col-sm-3">Registered</dt><dd class="col-sm-9">{{registration.registered.strftime("%Y-%m-%d %H:%M:%S") if registration.registered else "Unknown"}}</dd>
+            <dt class="col-sm-3">Status</dt><dd class="col-sm-9">{{registration.status}}</dd>
+            <dt class="col-sm-3">Admin</dt><dd class="col-sm-9">{{"Yes" if registration.is_admin else "No"}}</dd>
+            <dt class="col-sm-3">Application reason</dt><dd class="col-sm-9 text-break">{{registration.reason}}</dd>
+        </dl>
+    </div>
+    {% else %}
     <div><textarea class="w-100" disabled rows="10">{{data}}</textarea></div>
+    {% endif %}
     <div>
         <ul class="list-group">
             <li class="list-group-item">External links found:</li>

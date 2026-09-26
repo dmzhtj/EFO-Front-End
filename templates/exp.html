@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore - EFO</title>
+    {% include "_shared_theme.html" %}
     <style>
         :root {
             --bg-gray: #d4d0c8;
@@ -178,9 +179,61 @@
         }
 
         .card-body.audio-content {
-            background: #f5f0e0;
+            background: #211f2b;
+            display: flex;
+            align-items: stretch;
+            justify-content: stretch;
+            padding: 0;
+            color: #fff;
+        }
+        .audio-card-link {
+            position: relative;
+            display: flex;
+            flex: 1;
+            min-width: 0;
+            flex-direction: column;
+            justify-content: flex-end;
+            overflow: hidden;
+            color: #fff;
+            text-decoration: none;
+            background: linear-gradient(135deg, #61557b, #211f2b 75%);
+        }
+        .audio-cover {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .audio-card-info {
+            position: relative;
+            z-index: 1;
             display: flex;
             flex-direction: column;
+            gap: 3px;
+            padding: 8px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.82));
+        }
+        .audio-track-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .audio-track-meta {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #e0dce8;
+            font-size: 11px;
+        }
+        .audio-placeholder {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             gap: 8px;
         }
         .audio-bars {
@@ -331,6 +384,7 @@
     </style>
 </head>
 <body>
+    {% from "_common_ui.html" import footer_block %}
 
     <!-- 顶部导航条 -->
     <div class="top-bar">
@@ -374,16 +428,28 @@
                 </div>
                 {% elif article.type == 'audio' %}
                 <div class="card-body audio-content" style="position:relative;">
-                    <a href="/dtexp/?id={{article.id}}"><span class="audio-note">&#9835; &#9836;</span>
-                        <div class="audio-bars">
-                            <div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div>
-                            <div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div>
-                            <div class="audio-bar"></div>
+                    <a class="audio-card-link" href="/dtexp/?id={{article.id}}">
+                        {% if article.cover %}
+                        <img class="audio-cover" src="{{article.cover}}" alt="Cover for {{article.music_title or 'audio track'}}">
+                        {% else %}
+                        <div class="audio-placeholder">
+                            <span class="audio-note">&#9835; &#9836;</span>
+                            <div class="audio-bars">
+                                <div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div>
+                                <div class="audio-bar"></div><div class="audio-bar"></div><div class="audio-bar"></div>
+                                <div class="audio-bar"></div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="audio-card-info">
+                            <span class="audio-track-title">{{article.music_title or "Audio track"}}</span>
+                            {% if article.music_artist or article.music_album %}
+                            <span class="audio-track-meta">{{article.music_artist}}{% if article.music_artist and article.music_album %} · {% endif %}{{article.music_album}}</span>
+                            {% elif article.description %}
+                            <span class="audio-track-meta">{{article.description}}</span>
+                            {% endif %}
                         </div>
                     </a>
-                    {% if article.description %}
-                    <div class="card-description">{{article.description}}</div>
-                    {% endif %}
                 </div>
                 {% elif article.type == 'text' %}
                 <div class="card-body text-content"><a href="/dtexp/?id={{article.id}}">{{article.text()}}</a></div>
@@ -405,11 +471,7 @@
         </div>
     </div>
 
-    <!-- 底部 -->
-    <div class="page-footer">
-        "我点燃了火，却控制不了它" &nbsp;|&nbsp;
-        &copy; 2026 EFO. Some rights reserved.
-    </div>
+    {{ footer_block() }}
     <script src="/static/exp.min.js"></script>
 </body>
 </html>{% endif %}

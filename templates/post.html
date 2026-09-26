@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post - EFO</title>
+    {% include "_shared_theme.html" %}
+    {% from "_common_ui.html" import footer_block %}
     <style>
         :root {
             --bg-gray: #d4d0c8;
@@ -208,8 +210,9 @@
                             <tr id="audioFieldRow" style="display:none;"><td class="label">audio:</td></tr>
                             <tr id="audioFieldInput" style="display:none;">
                                 <td>
-                                    <input type="file" id="audioFile" accept="audio/*" name="audio">
+                                    <input type="file" id="audioFile" accept=".flac,audio/flac,audio/*" name="audio">
                                     <span id="audioFileName" class="file-name"></span>
+                                    <div class="hint-text">FLAC title, artist, album, and embedded cover are read automatically.</div>
                                 </td>
                             </tr>
                             <tr id="audioDescRow" style="display:none;"><td class="label">description (optional):</td></tr>
@@ -242,10 +245,7 @@
         </table>
     </div>
 
-    <div class="footer">
-        "我点燃了火，却控制不了它"<br>
-        &copy; 2026 EFO. Some rights reserved.
-    </div>
+    {{ footer_block() }}
 
     <script>
 
