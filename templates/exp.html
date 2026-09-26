@@ -1,60 +1,11 @@
-{% if not headless %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explore - EFO</title>
-    {% include "_shared_theme.html" %}
+{% extends "_base.html" %}
+{% block title %}Explore - EFO{% endblock %}
+{% block extra_head %}
     <style>
         :root {
-            --bg-gray: #d4d0c8;
-            --title-blue: #000080;
-            --text-dark: #000;
             --card-bg: #ece8e0;
             --card-hover: #f4f0e8;
             --maroon: #cc0000;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            background: url("/static/BG.png") no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Times New Roman', '宋体', serif;
-            font-size: 16px;
-            color: var(--text-dark);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* 顶部导航栏 — 复古标题条 */
-        .top-bar {
-            background: var(--title-blue);
-            color: #fff;
-            font-weight: bold;
-            padding: 6px 14px;
-            font-size: 17px;
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-shrink: 0;
-            border-bottom: 2px solid #000060;
-        }
-        .top-bar .nav-links a {
-            color: #fff;
-            font-size: 14px;
-            margin-left: 16px;
-            text-decoration: none;
-            font-weight: normal;
-            letter-spacing: 0.2px;
-        }
-        .top-bar .nav-links a:hover {
-            text-decoration: underline;
         }
 
         /* 分类筛选条 */
@@ -347,19 +298,6 @@
             white-space: nowrap;
         }
 
-        .page-footer {
-            text-align: center;
-            font-size: 13px;
-            color: #555;
-            padding: 14px 0 12px;
-            flex-shrink: 0;
-            line-height: 1.5;
-            opacity: 0.8;
-            background: #c8c4b8;
-            border-top: 1px solid #aaa;
-        }
-        .page-footer a { color: #0000ee; }
-
         @media (max-width: 600px) {
             .posts-grid {
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -382,9 +320,10 @@
             .post-card.span-2x2 { grid-column: span 2; }
         }
     </style>
-</head>
-<body>
+{% endblock %}
+{% block content %}
     {% from "_common_ui.html" import footer_block %}
+    {% if not headless %}
 
     <!-- 顶部导航条 -->
     <div class="top-bar">
@@ -407,7 +346,7 @@
 
     <!-- 主内容区 — 全屏网格 -->
     <div class="content-area">
-        <div class="posts-grid" id="postsGrid">{% endif %}
+        <div class="posts-grid" id="postsGrid">
             {% for article in articles %}
             {% if not article.passed %}
             <div class="post-card {{article.span}}">
@@ -467,11 +406,11 @@
                 </div>
             </div>
             {% endif %}
-            {% endfor %}<div style="display: none;" id="loid">{{lo_id}}</div>{% if not headless %}
+            {% endfor %}<div style="display: none;" id="loid">{{lo_id}}</div>
         </div>
     </div>
 
     {{ footer_block() }}
     <script src="/static/exp.min.js"></script>
-</body>
-</html>{% endif %}
+    {% endif %}
+{% endblock %}

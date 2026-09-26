@@ -1,23 +1,7 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Log In - EFO</title>
-    {% include "_shared_theme.html" %}
+{% extends "_base.html" %}
+{% block title %}Log In - EFO{% endblock %}
+{% block extra_head %}
     <style>
-        :root {
-            --bg-gray: #d4d0c8;
-            --title-blue: #000080;
-            --border-light: #fff;
-            --text-dark: #000;
-            --text-gray: #333;
-            --link-blue: #0000ee;
-            --link-visited: #551a8b;
-            --maroon: #cc0000;
-        }
-
         .page-content {
             padding-top: 28vh;
         }
@@ -102,26 +86,6 @@
             background: #c8c4bc;
         }
 
-        a {
-            color: var(--link-blue);
-            text-decoration: underline;
-            font-size: 16px;
-            transition: color 0.15s ease;
-        }
-
-        a:visited {
-            color: var(--link-visited);
-        }
-
-        a:hover {
-            color: #3333ff;
-        }
-
-        hr {
-            border: 1px inset var(--border-light);
-            margin: 14px 0 10px 0;
-        }
-
         .link-row {
             text-align: center;
         }
@@ -175,9 +139,8 @@
             }
         }
     </style>
-</head>
-
-<body>
+{% endblock %}
+{% block content %}
     {% from "_common_ui.html" import form_panel, footer_block %}
     {% call form_panel(":: Log In ::") %}
                     <marquee scrollamount="3" behavior="scroll">
@@ -237,6 +200,4 @@
     <div class="counter">You are visitor # <b>{{usercnt}}</b></div>
 
     {{ footer_block() }}
-</body>
-
-</html>
+{% endblock %}

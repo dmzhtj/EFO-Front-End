@@ -1,35 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post - EFO</title>
-    {% include "_shared_theme.html" %}
-    {% from "_common_ui.html" import footer_block %}
+{% extends "_base.html" %}
+{% block title %}Post - EFO{% endblock %}
+{% block extra_head %}
     <style>
-        :root {
-            --bg-gray: #d4d0c8;
-            --title-blue: #000080;
-            --border-light: #fff;
-            --text-dark: #000;
-            --link-blue: #0000ee;
-            --link-visited: #551a8b;
-            --maroon: #cc0000;
-            --disabled-text: #888;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            background: url("/static/BG.png") no-repeat center center fixed;
-            background-size: 100% 100%;
-            font-family: 'Times New Roman', '宋体', serif;
-            font-size: 19px;
-            color: var(--text-dark);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
 
         .page-content {
             flex: 1;
@@ -109,11 +81,6 @@
         input[type="submit"]:active, input[type="button"]:active, .btn-back:active { border-style: inset; }
         input[type="submit"]:disabled { color: var(--disabled-text); cursor: wait; }
 
-        a { color: var(--link-blue); text-decoration: underline; font-size: 16px; }
-        a:visited { color: var(--link-visited); }
-        a:hover { color: #3333ff; }
-
-        hr { border: 1px inset var(--border-light); margin: 14px 0 6px 0; }
         .error-msg { color: #cc0000; font-size: 13px; font-weight: bold; min-height: 16px; text-align: center; margin-top: 4px; }
         .link-row { text-align: center; font-size: 16px; margin-top: 2px; }
         .footer { text-align: center; font-size: 15px; color: var(--text-dark); padding: 20px 0 16px; flex-shrink: 0; line-height: 1.6; opacity: 0.85; }
@@ -124,8 +91,9 @@
             .page-content { padding-top: 8vh; }
         }
     </style>
-</head>
-<body>
+{% endblock %}
+{% block content %}
+    {% from "_common_ui.html" import footer_block %}
 
     <div class="page-content">
         <table class="main">
@@ -321,5 +289,4 @@
         // 初始状态
         toggleContentFields();
     </script>
-</body>
-</html>
+{% endblock %}
