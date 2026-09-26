@@ -1,0 +1,136 @@
+.page-content {
+            padding-top: 28vh;
+        }
+
+        table.main {
+            width: 380px;
+        }
+
+        table.main td.content {
+            padding: 20px 24px;
+        }
+
+        table.form {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table.form td {
+            padding: 4px 0;
+        }
+
+        table.form td.label {
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            border: 2px inset var(--border-light);
+            background: #fff;
+            padding: 6px 8px;
+            font-family: "Courier New", monospace;
+            font-size: 18px;
+            color: var(--text-dark);
+            outline: none;
+            transition: background 0.15s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            background: #fffff0;
+        }
+
+        input[type="text"].error,
+        input[type="password"].error {
+            border-color: #cc0000;
+            background: #fff0f0;
+        }
+
+        .btn-row {
+            text-align: center;
+            padding-top: 19px;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        input[type="submit"],
+        input[type="reset"],
+        .btn-reset {
+            border: 2px outset var(--border-light);
+            background: var(--bg-gray);
+            padding: 5px 20px;
+            font-family: "Times New Roman", "宋体", serif;
+            font-size: 17px;
+            cursor: pointer;
+            color: var(--text-dark);
+            min-width: 80px;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="submit"]:active,
+        input[type="reset"]:active,
+        .btn-reset:active {
+            border-style: inset;
+        }
+
+        input[type="submit"]:hover,
+        input[type="reset"]:hover,
+        .btn-reset:hover {
+            background: #c8c4bc;
+        }
+
+        .link-row {
+            text-align: center;
+        }
+
+        marquee {
+            font-size: 16px;
+            color: var(--maroon);
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .error-msg {
+            color: #cc0000;
+            font-size: 13px;
+            font-weight: bold;
+            min-height: 18px;
+            text-align: center;
+            margin-top: 4px;
+            letter-spacing: 0.3px;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 15px;
+            color: var(--text-dark);
+            padding: 24px 0 18px;
+            flex-shrink: 0;
+            line-height: 1.6;
+            opacity: 0.85;
+        }
+
+        .counter {
+            text-align: center;
+            font-size: 15px;
+            color: var(--text-gray);
+            margin-top: 11px;
+        }
+
+        /* 响应式微调 */
+        @media (max-width: 420px) {
+            table.main {
+                width: 92vw;
+            }
+
+            table.main td.content {
+                padding: 16px 16px;
+            }
+
+            .page-content {
+                padding-top: max(34vh, 220px);
+            }
+        }
