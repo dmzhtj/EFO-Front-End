@@ -150,6 +150,25 @@
         }
         .post-body video { max-width: 100%; background: #000; }
         .post-body audio { width: 100%; margin-top: 8px; }
+        .audio-detail {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            background: #f0ece4;
+        }
+        .audio-detail-cover {
+            width: 96px;
+            height: 96px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: #211f2b;
+        }
+        .audio-detail-info { min-width: 0; }
+        .audio-detail-title { font-size: 18px; font-weight: bold; }
+        .audio-detail-meta { margin-top: 5px; color: #555; font-size: 14px; }
         .post-body .video-placeholder {
             background: #1a1a2e;
             color: #fff;
@@ -295,6 +314,18 @@
                     </div>
                 </div>
             </div>
+            {% if detail.type == "audio" %}
+            <div class="audio-detail">
+                {% if detail.cover %}
+                <img class="audio-detail-cover" src="{{detail.cover}}" alt="Audio cover">
+                {% endif %}
+                <div class="audio-detail-info">
+                    <div class="audio-detail-title">{{detail.music_title or "Audio track"}}</div>
+                    {% if detail.music_artist %}<div class="audio-detail-meta">Artist: {{detail.music_artist}}</div>{% endif %}
+                    {% if detail.music_album %}<div class="audio-detail-meta">Album: {{detail.music_album}}</div>{% endif %}
+                </div>
+            </div>
+            {% endif %}
             <div class="post-body" id="detailBody">{{detail.body|safe}}</div>
             {% if detail.description %}
             <div class="post-description" id="detailDesc" style="display:block;">{{detail.description}}</div>
